@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spotify Playlist Authentication</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .header {
+            margin-bottom: 30px;
+        }
+        .spotify-button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .feature-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .feature-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature-button {
+            display: inline-block;
+            background-color: #F28C28;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .feature-button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .info-section {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .debug-section {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #fff0f0;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .debug-button {
+            display: inline-block;
+            background-color: #ff9800;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .method-selector {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Jurassic Music Society</h1>
+            <p>Spotify Playlist Management System</p>
+        </div>
+        
+        <div class="method-selector">
+            <h2>Connect with Spotify</h2>
+            <p>Authorize this app to create playlists in your Spotify account:</p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; justify-content: center;">
+                <a href="/auth" class="spotify-button">Connect with Spotify</a>
+            </div>
+            <p style="font-size: 14px; margin-top: 10px; color: #666;">
+                You'll be redirected back here after successful authentication.
+            </p>
+            <div style="margin-top: 15px; text-align: center;">
+                <p>If automatic redirect doesn't work:</p>
+                <a href="/spotify/manual-token" style="color: #1DB954; text-decoration: none;">
+                    Enter Token Manually
+                </a>
+            </div>
+            <div th:if="${isAuthenticated}" style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 5px; color: #2e7d32;">
+                <p><strong>Successfully authenticated!</strong> You can now use the features below.</p>
+            </div>
+        </div>
+        
+        <div class="feature-section">
+            <h2>Features</h2>
+            <p>Create playlists from your WhatsApp chat history and manage your Spotify account.</p>
+            
+            <div class="feature-buttons">
+                <a th:href="${accessToken != null ? '/whatsapp/upload?accessToken=' + accessToken : '#'}" 
+                   th:classappend="${accessToken == null ? 'disabled' : ''}" 
+                   class="feature-button">
+                    Create Friday Playlists from WhatsApp
+                </a>
+            </div>
+            
+            <p th:if="${accessToken == null}" style="color: #777; margin-top: 10px;">
+                Please connect with Spotify first to access features
+            </p>
+        </div>
+        
+        <div class="info-section">
+            <h2>WhatsApp Playlist Creator</h2>
+            <p>The WhatsApp Playlist Creator allows you to:</p>
+            <ul>
+                <li>Upload WhatsApp chat exports (.txt files)</li>
+                <li>Extract Spotify links shared on Fridays</li>
+                <li>Create playlists for each Friday in the format "JMS DD.MM.YY"</li>
+                <li>Only create playlists for Fridays that don't already exist in your Spotify account</li>
+            </ul>
+            <p>This feature helps organize music shared in your WhatsApp group chats into weekly playlists automatically.</p>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Troubleshooting</h2>
+            <p>If you're experiencing issues with authentication:</p>
+            <ol>
+                <li>Make sure your Spotify account has the necessary permissions</li>
+                <li>Check that you're using the latest version of the WhatsApp export</li>
+                <li>Ensure your chat file contains Spotify links in the correct format</li>
+                <li>If you see "Invalid redirect URI" error, the callback URL in Spotify Developer Dashboard needs to match <code>https://jurassicmusicsociety.com/api/callback</code> exactly</li>
+                <li>If automatic redirect doesn't work, try the "Enter Token Manually" option</li>
+                <li>When using manual token entry, copy the entire JSON response from the redirect page</li>
+            </ol>
+            <p><strong>Note:</strong> If you're redirected to a JSON page after authorization, you can copy that JSON and use the manual token entry option.</p>
+            <a href="/debug/spotify-config" class="debug-button">View Current Configuration</a>
+            <div th:if="${error != null}" style="margin-top: 15px; padding: 10px; background-color: #ffebee; border-radius: 5px; color: #c62828;">
+                <p><strong>Error:</strong> <span th:text="${error}">Authentication error</span></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WhatsApp Spotify Playlist Creator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .upload-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .info-section {
+            background-color: #eefaff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        .playlist-list {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .playlist-item {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .error-message {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+        .file-input {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WhatsApp Spotify Playlist Creator</h1>
+            <p>Create Spotify playlists from WhatsApp chat exports</p>
+        </div>
+        
+        <!-- User profile information if available -->
+        <div th:if="${userProfile != null}" class="user-info">
+            <img th:if="${userProfile.images != null && !userProfile.images.empty}" 
+                 th:src="${userProfile.images[0].url}" 
+                 th:alt="${userProfile.display_name}" 
+                 class="user-avatar">
+            <div>
+                <h3 th:text="${userProfile.display_name}">User Name</h3>
+                <p th:text="${userProfile.email}">user@example.com</p>
+            </div>
+        </div>
+        
+        <!-- Upload form -->
+        <div class="upload-form">
+            <h2>Upload WhatsApp Chat Export</h2>
+            
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            
+            <form th:action="@{/whatsapp/upload}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="accessToken" th:value="${accessToken}">
+                
+                <div class="file-input">
+                    <label for="whatsapp-file">Select WhatsApp chat export file (.txt):</label>
+                    <input type="file" id="whatsapp-file" name="file" accept=".txt" required>
+                </div>
+                
+                <button type="submit" class="button">Create Playlists</button>
+            </form>
+        </div>
+        
+        <!-- How it works section -->
+        <div class="info-section">
+            <h2>How it works</h2>
+            <ol>
+                <li>Export your WhatsApp chat history (without media)</li>
+                <li>Upload the .txt file using the form above</li>
+                <li>The application will scan for Spotify links shared on Fridays</li>
+                <li>The system checks both the JMS website and your Spotify account for existing playlists</li>
+                <li>New playlists will be created for each Friday in the format "JMS DD.MM.YY"</li>
+                <li>Only creates playlists for Fridays that don't already exist in either location</li>
+            </ol>
+            <p><strong>Note:</strong> Only Spotify track links will be processed (not albums, artists, or playlists)</p>
+        </div>
+        
+        <!-- Existing playlists section -->
+        <div th:if="${jmsPlaylists != null && !jmsPlaylists.empty}" class="info-section">
+            <h2>Existing JMS Website Playlists</h2>
+            <p>The following playlists already exist on the JMS website and will not be recreated:</p>
+            
+            <div class="playlist-list">
+                <div th:each="playlist : ${jmsPlaylists}" class="playlist-item">
+                    <span th:text="${playlist}">JMS DD.MM.YY</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User's Existing playlists section -->
+        <div th:if="${playlists != null && !playlists.empty}" class="info-section">
+            <h2>Your Existing JMS Playlists</h2>
+            <p>The following JMS playlists already exist in your Spotify account and will not be recreated:</p>
+            
+            <div class="playlist-list">
+                <div th:each="playlist : ${playlists}" th:if="${playlist.name.startsWith('JMS ')}" class="playlist-item">
+                    <span th:text="${playlist.name}">Playlist Name</span>
+                    <span th:if="${playlist.tracks != null}" 
+                          th:text="'(' + ${playlist.tracks.total} + ' tracks)'">
+                          (0 tracks)
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/" class="button" style="background-color: #777;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

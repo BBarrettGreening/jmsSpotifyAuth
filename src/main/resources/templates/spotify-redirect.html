@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Spotify Authorization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #1DB954; /* Spotify green */
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #1DB954;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        .message {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+            display: none;
+        }
+        .manual-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1DB954;
+            text-decoration: none;
+        }
+        .manual-link:hover {
+            text-decoration: underline;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Processing Spotify Authorization</h1>
+        <div class="spinner"></div>
+        <div class="message">Processing your Spotify authorization...</div>
+        <div id="error" class="error"></div>
+        <a href="/" class="manual-link" style="display: none;" id="returnHome">Return to Home Page</a>
+    </div>
+
+    <script th:inline="javascript">
+        // Function to show error message
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+            document.querySelector('.spinner').style.display = 'none';
+            document.querySelector('.message').textContent = 'Authorization failed';
+            document.getElementById('returnHome').style.display = 'inline-block';
+        }
+
+        // Function to extract token from page content
+        function extractToken() {
+            try {
+                // Check if we already have an access token in the model
+                var accessToken = /*[[${accessToken}]]*/ null;
+                var code = /*[[${code}]]*/ null;
+                
+                if (accessToken) {
+                    console.log('Access token found in model, redirecting...');
+                    window.location.href = '/whatsapp/upload?accessToken=' + accessToken;
+                    return true;
+                }
+                
+                // If we have a code, try to exchange it
+                if (code) {
+                    console.log('Code found, redirecting to exchange endpoint...');
+                    window.location.href = '/spotify/exchange?code=' + code;
+                    return true;
+                }
+                
+                // Get the page content (which might be JSON)
+                var pageContent = document.body.textContent || document.body.innerText;
+                
+                // Look for "Invalid redirect URI" error
+                if (pageContent.includes("Invalid redirect URI") || pageContent.includes("INVALID_CLIENT")) {
+                    console.error('Invalid redirect URI detected');
+                    showError("Invalid redirect URI detected. This is typically caused by a mismatch between the redirect URI in your authentication request and what's registered in your Spotify Developer Dashboard. Please contact the administrator.");
+                    return false;
+                }
+                
+                // Try to parse it as JSON
+                try {
+                    var tokenData = JSON.parse(pageContent);
+                    
+                    // If we have an access_token, redirect to the app
+                    if (tokenData && tokenData.access_token) {
+                        console.log('Found access_token in JSON response');
+                        // Redirect to WhatsApp upload page with the token
+                        window.location.href = '/whatsapp/upload?accessToken=' + tokenData.access_token;
+                        return true;
+                    }
+                } catch (jsonError) {
+                    console.error('Error parsing JSON:', jsonError);
+                }
+                
+                // If we couldn't parse JSON, check if there are URL parameters
+                var urlParams = new URLSearchParams(window.location.search);
+                var accessTokenParam = urlParams.get('access_token');
+                var codeParam = urlParams.get('code');
+                
+                // Check if we have an access token in URL parameters
+                if (accessTokenParam) {
+                    console.log('Found access_token in URL parameters');
+                    window.location.href = '/whatsapp/upload?accessToken=' + accessTokenParam;
+                    return true;
+                }
+                
+                // Check if we have a code in URL parameters
+                if (codeParam) {
+                    console.log('Found code in URL parameters');
+                    window.location.href = '/spotify/exchange?code=' + codeParam;
+                    return true;
+                }
+                
+                // If we reach here, we couldn't find a token
+                showError("Couldn't find access token or authorization code in the response");
+                return false;
+            } catch (e) {
+                console.error('Error processing auth:', e);
+                showError("Error processing authentication: " + e.message);
+                return false;
+            }
+        }
+
+        // Process the token when the page loads
+        window.onload = function() {
+            // Try to extract the token
+            if (!extractToken()) {
+                // If extraction fails, show a link to go back home
+                document.getElementById('returnHome').style.display = 'inline-block';
+            }
+        };
+    </script>
+</body>
+</html>

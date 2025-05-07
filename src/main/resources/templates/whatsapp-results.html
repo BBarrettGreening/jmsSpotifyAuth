@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WhatsApp Playlist Results</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .success-message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .info-message {
+            background-color: #d9edf7;
+            color: #31708f;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .playlists-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .playlist-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #fff;
+            border-left: 4px solid #1DB954;
+        }
+        .track-list {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        .track-item {
+            margin-bottom: 5px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .secondary-button {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>WhatsApp Playlist Results</h1>
+        </div>
+        
+        <!-- Success/Error Messages -->
+        <div th:if="${success}" class="success-message">
+            <h3>Success!</h3>
+            <p th:text="${message}">Playlists have been successfully created.</p>
+            <p th:if="${jmsChecked}">Note: Only playlists that didn't already exist on the JMS website or in your Spotify account were created.</p>
+        </div>
+        
+        <div th:if="${error}" class="error-message">
+            <h3>Error</h3>
+            <p th:text="${error}">An error occurred.</p>
+        </div>
+        
+        <div th:if="${message != null && (success == null || success == false)}" class="info-message">
+            <p th:text="${message}">Informational message.</p>
+        </div>
+        
+        <!-- Playlists Section -->
+        <div th:if="${playlists != null && !playlists.empty}" class="playlists-section">
+            <h2>Playlists Created</h2>
+            
+            <div th:each="playlist : ${playlists}" class="playlist-item">
+                <h3 th:text="${playlist.name}">Playlist Name</h3>
+                <p>Date: <span th:text="${#temporals.format(playlist.date, 'dd MMMM yyyy')}">01 January 2025</span></p>
+                <p>Tracks: <span th:text="${playlist.trackCount}">0</span></p>
+                
+                <div th:if="${playlist.trackCount > 0}" class="track-list">
+                    <div th:each="trackUri : ${playlist.trackUris}" class="track-item">
+                        <span th:text="${trackUri}">spotify:track:1234567890</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Created Playlists in Spotify -->
+        <div th:if="${createdPlaylists != null && !createdPlaylists.empty}" class="playlists-section">
+            <h2>Playlists in Spotify</h2>
+            
+            <div th:each="playlist : ${createdPlaylists}" class="playlist-item">
+                <h3 th:text="${playlist.name}">Playlist Name</h3>
+                <p th:if="${playlist.description != null}" th:text="${playlist.description}">Description</p>
+                
+                <div style="margin-top: 10px;">
+                    <a th:if="${playlist.external_urls != null && playlist.external_urls.spotify != null}" 
+                       th:href="${playlist.external_urls.spotify}" 
+                       target="_blank" 
+                       class="button">
+                        Open in Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="@{/whatsapp/upload(accessToken=${accessToken})}" class="button">Upload Another Chat</a>
+            <a href="/" class="button secondary-button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

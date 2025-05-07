@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Redirecting...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #1DB954;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #error-message {
+            color: red;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+        }
+        #manual-options {
+            display: none;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .secondary-button {
+            background-color: #777;
+        }
+    </style>
+    <script th:inline="javascript">
+        window.onload = function() {
+            let redirected = false;
+            
+            // Get access token from the model (if available)
+            var accessToken = /*[[${accessToken}]]*/ '';
+            var error = /*[[${error}]]*/ '';
+            
+            // If we have an error, show it
+            if (error && error.length > 0) {
+                showError(error);
+                showManualOptions();
+                return;
+            }
+            
+            // If we have an access token in the model, use it
+            if (accessToken && accessToken.length > 0) {
+                console.log('Access token found in model, redirecting...');
+                window.location.href = '/whatsapp/upload?accessToken=' + accessToken;
+                redirected = true;
+                return;
+            }
+            
+            // Check URL parameters
+            var urlParams = new URLSearchParams(window.location.search);
+            var tokenParam = urlParams.get('access_token');
+            
+            // If we have a token in URL params, use it
+            if (tokenParam && tokenParam.length > 0) {
+                console.log('Access token found in URL, redirecting...');
+                window.location.href = '/whatsapp/upload?accessToken=' + tokenParam;
+                redirected = true;
+                return;
+            }
+            
+            // If we get here, try to parse the page content for JSON data
+            setTimeout(function() {
+                if (!redirected) {
+                    try {
+                        // Get page content
+                        var pageContent = document.body.innerText || document.body.textContent;
+                        
+                        // Look for braces indicating JSON
+                        if (pageContent.includes('{') && pageContent.includes('}')) {
+                            // Extract JSON from the page
+                            var jsonStart = pageContent.indexOf('{');
+                            var jsonEnd = pageContent.lastIndexOf('}') + 1;
+                            var jsonText = pageContent.substring(jsonStart, jsonEnd);
+                            
+                            // Try to parse it
+                            var tokenData = JSON.parse(jsonText);
+                            
+                            // If successful and it has an access_token, redirect
+                            if (tokenData && tokenData.access_token) {
+                                console.log('Found access_token in page content');
+                                window.location.href = '/whatsapp/upload?accessToken=' + tokenData.access_token;
+                                redirected = true;
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        // Continue to manual options
+                    }
+                    
+                    // If we get here and haven't redirected, show manual options
+                    showError("Could not automatically process authentication data");
+                    showManualOptions();
+                }
+            }, 1000); // Wait a second to make sure page is fully loaded
+        };
+        
+        function showError(message) {
+            var errorElement = document.getElementById('error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // Stop the spinner
+            document.getElementById('spinner').style.display = 'none';
+        }
+        
+        function showManualOptions() {
+            document.getElementById('manual-options').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Processing Authentication</h1>
+        <p>Please wait while we process your Spotify authentication...</p>
+        
+        <div id="spinner" class="spinner"></div>
+        
+        <div id="error-message"></div>
+        
+        <div id="manual-options">
+            <h2>Manual Options</h2>
+            <p>If you're seeing this message, we couldn't automatically process your authentication.</p>
+            <p>You have two options:</p>
+            
+            <p>
+                <a href="/" class="button secondary-button">Return to Homepage</a>
+            </p>
+            
+            <p>Or if you can see a JSON response with an access_token, copy the entire JSON text and paste it here:</p>
+            
+            <div>
+                <textarea id="json-input" rows="5" cols="50" placeholder="Paste JSON here..."></textarea>
+            </div>
+            
+            <p>
+                <button onclick="processManualJson()" class="button">Process JSON</button>
+            </p>
+            
+            <script>
+                function processManualJson() {
+                    try {
+                        var jsonText = document.getElementById('json-input').value;
+                        var tokenData = JSON.parse(jsonText);
+                        
+                        if (tokenData && tokenData.access_token) {
+                            window.location.href = '/whatsapp/upload?accessToken=' + tokenData.access_token;
+                        } else {
+                            showError("The JSON doesn't contain an access_token");
+                        }
+                    } catch (e) {
+                        showError("Invalid JSON: " + e.message);
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</body>
+</html>

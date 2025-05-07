@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spotify Authentication Success</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .token-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        .user-profile {
+            background-color: #eefaff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .actions-section {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .feature-button {
+            display: inline-block;
+            background-color: #F28C28;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Authentication Successful!</h1>
+            <p>You have successfully authenticated with Spotify.</p>
+        </div>
+        
+        <div class="actions-section">
+            <h2>What would you like to do?</h2>
+            <a th:href="@{/whatsapp/upload(accessToken=${accessToken})}" class="feature-button">
+                Create Friday Playlists from WhatsApp
+            </a>
+        </div>
+        
+        <div class="user-profile" th:if="${userProfile != null}">
+            <h2>User Profile</h2>
+            <div style="display: flex; align-items: center;">
+                <div th:if="${userProfile.images != null and !userProfile.images.empty}" style="margin-right: 20px;">
+                    <img th:src="${userProfile.images[0].url}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;">
+                </div>
+                <div>
+                    <p><strong>Display Name:</strong> <span th:text="${userProfile.display_name}">User</span></p>
+                    <p><strong>Email:</strong> <span th:text="${userProfile.email}">user@example.com</span></p>
+                    <p><strong>Spotify ID:</strong> <span th:text="${userProfile.id}">spotify-id</span></p>
+                    <p><strong>Country:</strong> <span th:text="${userProfile.country}">US</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="token-info">
+            <h2>Token Information</h2>
+            <p><strong>Access Token:</strong> <span th:text="${accessToken}">access-token</span></p>
+            <p><strong>Token Type:</strong> <span th:text="${tokenType}">Bearer</span></p>
+            <p><strong>Expires In:</strong> <span th:text="${expiresIn}">3600</span> seconds</p>
+            <p class="warning" style="color: #e74c3c; font-style: italic;">
+                Note: This token will expire after the time shown above. You'll need to reconnect with Spotify if the token expires.
+            </p>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="/" class="button">Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>

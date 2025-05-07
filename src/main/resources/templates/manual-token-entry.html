@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manual Token Entry</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .instructions {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .error {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+    </style>
+    <script>
+        function parseTokenData() {
+            try {
+                const jsonText = document.getElementById('tokenJson').value;
+                const tokenData = JSON.parse(jsonText);
+                
+                document.getElementById('accessToken').value = tokenData.access_token || '';
+                document.getElementById('refreshToken').value = tokenData.refresh_token || '';
+                document.getElementById('tokenType').value = tokenData.token_type || '';
+                document.getElementById('expiresIn').value = tokenData.expires_in || '';
+                
+                document.getElementById('parseStatus').innerHTML = 'JSON parsed successfully!';
+                document.getElementById('parseStatus').style.color = '#1DB954';
+            } catch (e) {
+                document.getElementById('parseStatus').innerHTML = 'Error parsing JSON: ' + e.message;
+                document.getElementById('parseStatus').style.color = '#e74c3c';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Manual Token Entry</h1>
+            <p>Enter the Spotify token information to continue</p>
+        </div>
+        
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Paste the JSON token information you copied from the redirect page into the box below</li>
+                <li>Click "Parse Token" to automatically fill in the form fields</li>
+                <li>Or manually enter the token information if parsing doesn't work</li>
+                <li>Click "Continue" to proceed with authentication</li>
+            </ol>
+        </div>
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+        
+        <div class="form-group">
+            <label for="tokenJson">Paste JSON Token Information:</label>
+            <textarea id="tokenJson" rows="6" placeholder='{"access_token": "...", "token_type": "Bearer", ...}'></textarea>
+            <button onclick="parseTokenData()" style="margin-top: 10px; background-color: #666;">Parse Token</button>
+            <p id="parseStatus" style="margin-top: 5px; font-style: italic;"></p>
+        </div>
+        
+        <form th:action="@{/spotify/handle-manual-token}" method="post">
+            <div class="form-group">
+                <label for="accessToken">Access Token:</label>
+                <input type="text" id="accessToken" name="accessToken" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="refreshToken">Refresh Token:</label>
+                <input type="text" id="refreshToken" name="refreshToken" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tokenType">Token Type:</label>
+                <input type="text" id="tokenType" name="tokenType" value="Bearer">
+            </div>
+            
+            <div class="form-group">
+                <label for="expiresIn">Expires In (seconds):</label>
+                <input type="text" id="expiresIn" name="expiresIn" value="3600">
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="button">Continue</button>
+                <a href="/" class="button" style="background-color: #777; margin-left: 10px;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

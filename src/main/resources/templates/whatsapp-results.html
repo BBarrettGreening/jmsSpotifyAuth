@@ -90,7 +90,7 @@
         <div th:if="${success}" class="success-message">
             <h3>Success!</h3>
             <p th:text="${message}">Playlists have been successfully created.</p>
-            <p th:if="${jmsChecked}">Note: Only playlists that didn't already exist on the JMS website or in your Spotify account were created.</p>
+            <p th:if="${jmsChecked}">Note: Only playlists that didn't already exist on the JMS website <strong>or</strong> in your Spotify account were created.</p>
         </div>
         
         <div th:if="${error}" class="error-message">
@@ -100,6 +100,19 @@
         
         <div th:if="${message != null && (success == null || success == false)}" class="info-message">
             <p th:text="${message}">Informational message.</p>
+        </div>
+        
+        <!-- Playlist Information -->
+        <div class="info-message">
+            <h3>Playlist Information</h3>
+            <p>
+                <strong>JMS Website Playlists found:</strong> <span th:text="${jmsPlaylistsCount != null ? jmsPlaylistsCount : 0}">0</span><br>
+                <strong>Your Spotify Playlists found:</strong> <span th:text="${userPlaylistsCount != null ? userPlaylistsCount : 0}">0</span>
+            </p>
+            <p>Playlists are only created if they don't exist in either location.</p>
+            <p th:if="${jmsPlaylistsCount != null && jmsPlaylistsCount > 0}">
+                <a href="https://www.jurassicmusicsociety.com/playlists" target="_blank" style="color: #1DB954; font-weight: bold;">View all JMS playlists on the website</a>
+            </p>
         </div>
         
         <!-- Playlists Section -->
@@ -123,6 +136,14 @@
         <div th:if="${createdPlaylists != null && !createdPlaylists.empty}" class="playlists-section">
             <h2>Playlists in Spotify</h2>
             
+            <!-- Undo button for created playlists -->
+            <div style="margin-bottom: 15px; background-color: #fff3cd; padding: 10px; border-radius: 5px;" th:if="${accessToken != null}">
+                <p><strong>Just created playlists accidentally?</strong></p>
+                <p>If you created duplicate playlists or there was an error, you can remove the recently created playlists.</p>
+                <button id="undoButton" class="button" style="background-color: #dc3545;">Undo Recent Playlist Creation</button>
+                <div id="undoStatus" style="margin-top: 10px; display: none;"></div>
+            </div>
+            
             <div th:each="playlist : ${createdPlaylists}" class="playlist-item">
                 <h3 th:text="${playlist.name}">Playlist Name</h3>
                 <p th:if="${playlist.description != null}" th:text="${playlist.description}">Description</p>
@@ -138,11 +159,117 @@
             </div>
         </div>
         
+        <!-- Export Playlists -->
+        <div th:if="${accessToken != null && ((createdPlaylists != null && !createdPlaylists.empty) || success != null)}" class="playlists-section">
+            <h2>Export Playlists</h2>
+            <p>You can export your Spotify playlists in JMS JSON format for use on the JMS website.</p>
+            <p>This will export all your "Weekly Mix" and "JMS Mix" playlists and generate a JSON file compatible with the JMS website.</p>
+            
+            <div style="margin-top: 15px;">
+                <a th:href="@{/api/playlists/export/download(accessToken=${accessToken})}" class="button" style="background-color: #1DB954; margin-right: 10px;">Download JSON Export</a>
+                <a th:href="@{/api/playlists/export(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #555; margin-right: 10px;">View JSON</a>
+                <a th:href="@{/api/playlists/export-debug(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #333;">Debug Export</a>
+            </div>
+        </div>
+        
         <!-- Navigation -->
         <div style="text-align: center; margin-top: 20px;">
-            <a th:href="@{/whatsapp/upload(accessToken=${accessToken})}" class="button">Upload Another Chat</a>
+            <!-- Use a form instead of a link to preserve the token -->
+            <form th:if="${accessToken != null}" action="/whatsapp/upload" method="get" style="display: inline-block; margin-right: 10px;">
+                <input type="hidden" name="accessToken" th:value="${accessToken}">
+                <button type="submit" class="button">Upload Another Chat</button>
+            </form>
+            
+            <!-- Show reconnect button if token is missing -->
+            <a th:if="${accessToken == null}" href="/spotify/login?redirect_url=http://localhost:8080/whatsapp/upload" class="button" style="background-color: #1DB954; margin-right: 10px;">Reconnect with Spotify</a>
+            
             <a href="/" class="button secondary-button">Back to Home</a>
         </div>
     </div>
+    <script>
+        // Add JavaScript for undo functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const undoButton = document.getElementById('undoButton');
+            const undoStatus = document.getElementById('undoStatus');
+            
+            if (undoButton) {
+                undoButton.addEventListener('click', function() {
+                    // Get the access token from the URL parameters or a hidden form field
+                    const accessToken = getAccessToken();
+                    
+                    if (!accessToken) {
+                        showUndoStatus('error', 'No access token available. Please log in again.');
+                        return;
+                    }
+                    
+                    // Disable the button to prevent multiple clicks
+                    undoButton.disabled = true;
+                    undoButton.textContent = 'Working...';
+                    showUndoStatus('info', 'Removing recently created playlists...');
+                    
+                    // Call the API to undo recent playlist creation
+                    fetch(`/api/playlists/undo?accessToken=${encodeURIComponent(accessToken)}`, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.undoneCount > 0) {
+                                showUndoStatus('success', `Successfully removed ${data.undoneCount} recently created playlists.`);
+                                // If we successfully removed playlists, reload the page after a short delay
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 2000);
+                            } else {
+                                showUndoStatus('info', 'No recently created playlists found to remove.');
+                                undoButton.textContent = 'No Playlists to Undo';
+                            }
+                        } else {
+                            showUndoStatus('error', data.error || 'Failed to undo playlist creation.');
+                            undoButton.disabled = false;
+                            undoButton.textContent = 'Try Again';
+                        }
+                    })
+                    .catch(error => {
+                        showUndoStatus('error', `Error: ${error.message}`);
+                        undoButton.disabled = false;
+                        undoButton.textContent = 'Try Again';
+                    });
+                });
+            }
+            
+            function getAccessToken() {
+                // Try to get the access token from a hidden input field
+                const tokenInput = document.querySelector('input[name="accessToken"]');
+                if (tokenInput && tokenInput.value) {
+                    return tokenInput.value;
+                }
+                
+                // Otherwise, try to get it from URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('accessToken');
+            }
+            
+            function showUndoStatus(type, message) {
+                if (!undoStatus) return;
+                
+                // Clear previous content
+                undoStatus.innerHTML = '';
+                undoStatus.style.display = 'block';
+                
+                // Set the appropriate background color based on the type
+                let bgColor = '#d9edf7'; // info (blue)
+                if (type === 'success') bgColor = '#dff0d8'; // success (green)
+                if (type === 'error') bgColor = '#f2dede'; // error (red)
+                
+                undoStatus.style.backgroundColor = bgColor;
+                undoStatus.style.padding = '10px';
+                undoStatus.style.borderRadius = '4px';
+                
+                // Add the message
+                undoStatus.textContent = message;
+            }
+        });
+    </script>
 </body>
 </html>

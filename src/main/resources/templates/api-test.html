@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMS API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .playlist-list {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #fff;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .playlist-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f2f2f2;
+            border-radius: 3px;
+        }
+        .error {
+            color: #a94442;
+            background-color: #f2dede;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        code {
+            font-family: monospace;
+            background-color: #f8f8f8;
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px solid #e1e1e8;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border: 1px solid #e1e1e8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JMS API Test</h1>
+        
+        <div th:if="${error}" class="error">
+            <p th:text="${error}">Error message</p>
+        </div>
+        
+        <div th:if="${success}" class="success">
+            <p th:text="${success}">Success message</p>
+        </div>
+        
+        <div class="section">
+            <h2>Test JMS API Integration</h2>
+            <p>This page allows you to test the integration with the JMS website API.</p>
+            
+            <form action="/test/jms-api" method="get">
+                <div style="margin-bottom: 15px;">
+                    <label for="api-url">JMS API URL:</label>
+                    <input type="text" id="api-url" name="apiUrl" style="width: 100%; padding: 8px; margin-top: 5px;" 
+                           th:value="${apiUrl != null ? apiUrl : 'https://www.jurassicmusicsociety.com/api/playlists'}">
+                </div>
+                <button type="submit" class="button">Test API Connection</button>
+            </form>
+        </div>
+        
+        <div th:if="${jmsPlaylists != null}" class="section">
+            <h2>JMS Playlists Retrieved</h2>
+            <p>Successfully retrieved <span th:text="${jmsPlaylists.size()}">0</span> playlists from the JMS API.</p>
+            
+            <div class="playlist-list">
+                <div th:each="playlist : ${jmsPlaylists}" class="playlist-item">
+                    <p><strong th:text="${playlist}">Playlist Name</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <div th:if="${rawApiData != null}" class="section">
+            <h2>Raw API Data</h2>
+            <p>Here's the first few items from the raw API response:</p>
+            <pre th:text="${rawApiData}">Raw API data will appear here</pre>
+        </div>
+        
+        <div th:if="${convertedPlaylists != null}" class="section">
+            <h2>Format Conversion Test</h2>
+            <p>Testing the conversion from "Weekly Mix" format to "JMS" format:</p>
+            
+            <div class="playlist-list">
+                <div th:each="entry : ${convertedPlaylists}" class="playlist-item">
+                    <p>
+                        <strong>Input:</strong> <code th:text="${entry.key}">Weekly Mix title</code><br>
+                        <strong>Output:</strong> <code th:text="${entry.value}">JMS title</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <a href="/" class="button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

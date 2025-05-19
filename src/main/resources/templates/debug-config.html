@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .config-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .config-table th, .config-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .config-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .config-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Debug Configuration</h1>
+        
+        <div class="warning">
+            <p><strong>Warning:</strong> This page shows sensitive configuration settings and is only available in development mode. Do not share screenshots of this page.</p>
+        </div>
+        
+        <h2>Current Configuration</h2>
+        <table class="config-table">
+            <tr>
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+            <tr th:each="entry : ${config}">
+                <td th:text="${entry.key}">Setting</td>
+                <td th:text="${entry.value}">Value</td>
+            </tr>
+        </table>
+        
+        <h2>System Properties</h2>
+        <p>Java Version: <span th:text="${T(System).getProperty('java.version')}">Unknown</span></p>
+        <p>Operating System: <span th:text="${T(System).getProperty('os.name')}">Unknown</span></p>
+        
+        <div style="margin-top: 20px;">
+            <a href="/" class="button">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

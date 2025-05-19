@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMS Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .code {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        .notification {
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JMS Integration Test</h1>
+        
+        <div th:if="${error}" class="notification error">
+            <p th:text="${error}"></p>
+        </div>
+        
+        <div th:if="${success}" class="notification success">
+            <p>Authentication was successful!</p>
+        </div>
+        
+        <div th:if="${accessToken}" class="notification success">
+            <p>Access token received: <span th:text="${accessToken != null ? accessToken.substring(0, 10) + '...' : 'None'}"></span></p>
+        </div>
+        
+        <h2>Test Authentication Flow</h2>
+        <p>This page lets you test the different redirect flows for JMS integration</p>
+        
+        <h3>1. Test direct auth with JMS redirect</h3>
+        <p>This simulates a user clicking the "Authenticate with Spotify" button on the JMS website.</p>
+        <a href="/auth-for-jms?redirect_url=http://localhost:8080/jms-test" class="button">Start JMS Auth Flow</a>
+        
+        <h3>2. Test auth with manual redirect URL</h3>
+        <p>Enter a custom redirect URL to test:</p>
+        <form action="/auth-for-jms" method="get">
+            <input type="text" name="redirect_url" value="http://localhost:8080/jms-test" style="width: 300px; padding: 8px;">
+            <button type="submit" class="button">Start Auth with Custom Redirect</button>
+        </form>
+        
+        <h3>3. Technical Details</h3>
+        <p>The authentication flow works as follows:</p>
+        <ol>
+            <li>User clicks authenticate on JMS website</li>
+            <li>The request is sent to <code>/auth-for-jms</code> with a redirect URL</li>
+            <li>The system redirects to Spotify with a state parameter indicating the JMS redirect</li>
+            <li>After Spotify auth, Spotify redirects to our callback URL</li>
+            <li>The callback handler identifies the JMS redirect state and forwards back to JMS</li>
+        </ol>
+    </div>
+</body>
+</html>

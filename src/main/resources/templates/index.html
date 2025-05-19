@@ -104,7 +104,14 @@
             <p>Authorize this app to create playlists in your Spotify account:</p>
             
             <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; justify-content: center;">
-                <a href="/auth" class="spotify-button">Connect with Spotify</a>
+                <!-- Use a form to redirect to the WhatsApp upload page with the token -->
+                <form th:if="${accessToken != null}" action="/whatsapp/upload" method="get">
+                    <input type="hidden" name="accessToken" th:value="${accessToken}">
+                    <button type="submit" class="spotify-button" style="background-color: #F28C28;">Create Playlists from WhatsApp</button>
+                </form>
+                
+                <!-- Otherwise show the login button -->
+                <a th:unless="${accessToken != null}" href="/whatsapp/login" class="spotify-button">Connect with Spotify</a>
             </div>
             <p style="font-size: 14px; margin-top: 10px; color: #666;">
                 You'll be redirected back here after successful authentication.
@@ -125,11 +132,14 @@
             <p>Create playlists from your WhatsApp chat history and manage your Spotify account.</p>
             
             <div class="feature-buttons">
-                <a th:href="${accessToken != null ? '/whatsapp/upload?accessToken=' + accessToken : '#'}" 
-                   th:classappend="${accessToken == null ? 'disabled' : ''}" 
-                   class="feature-button">
-                    Create Friday Playlists from WhatsApp
-                </a>
+                <!-- Use a form to properly submit the token -->
+                <form th:if="${accessToken != null}" action="/whatsapp/upload" method="get">
+                    <input type="hidden" name="accessToken" th:value="${accessToken}">
+                    <button type="submit" class="feature-button">Create Friday Playlists from WhatsApp</button>
+                </form>
+                
+                <!-- Disabled button if not authenticated -->
+                <span th:unless="${accessToken != null}" class="feature-button disabled">Create Friday Playlists from WhatsApp</span>
             </div>
             
             <p th:if="${accessToken == null}" style="color: #777; margin-top: 10px;">
@@ -161,7 +171,15 @@
                 <li>When using manual token entry, copy the entire JSON response from the redirect page</li>
             </ol>
             <p><strong>Note:</strong> If you're redirected to a JSON page after authorization, you can copy that JSON and use the manual token entry option.</p>
-            <a href="/debug/spotify-config" class="debug-button">View Current Configuration</a>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <a href="/debug/spotify-config" class="debug-button">View Current Configuration</a>
+                <a href="/test/jms-api" class="debug-button">Test JMS API Connection</a>
+                <a href="/jms-test" class="debug-button">Test JMS Auth Flow</a>
+                
+                <!-- Pass the access token if available -->
+                <a th:if="${accessToken != null}" th:href="@{/debug/cleanup-playlists(accessToken=${accessToken})}" class="debug-button" style="background-color: #dc3545;">Cleanup Duplicate Playlists</a>
+                <a th:unless="${accessToken != null}" href="/debug/cleanup-playlists" class="debug-button" style="background-color: #dc3545;">Cleanup Duplicate Playlists</a>
+            </div>
             <div th:if="${error != null}" style="margin-top: 15px; padding: 10px; background-color: #ffebee; border-radius: 5px; color: #c62828;">
                 <p><strong>Error:</strong> <span th:text="${error}">Authentication error</span></p>
             </div>

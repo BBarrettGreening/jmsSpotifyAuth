@@ -57,12 +57,18 @@ public class SpotifyConfig {
     
     /**
      * Gets the appropriate redirect URI based on the provided state
-     * For compatibility, this method now simply returns the main redirect URI
      * 
      * @param state A string indicating which redirect URI to use
      * @return The redirect URI
      */
     public String getRedirectUriForState(String state) {
+        // If state indicates we should redirect back to the JMS app
+        if (state != null && state.contains("redirect_to_jms")) {
+            logger.info("Using JMS callback URL for redirect due to state: {}", state);
+            return jmsCallbackUrl;
+        }
+        
+        // For all other states, use the default redirect URI
         return redirectUri;
     }
 

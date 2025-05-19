@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spotify Playlist Cleanup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .warning {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .form-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .button.secondary {
+            background-color: #6c757d;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Spotify Playlist Cleanup</h1>
+            <p>Delete duplicate or unwanted playlists from your Spotify account</p>
+        </div>
+        
+        <div class="success" style="margin-bottom: 20px;">
+            <h3>How to use this page</h3>
+            <p>1. Enter your Spotify access token in the form below</p>
+            <p>2. Review the playlist name pattern you want to delete (default: all JMS playlists)</p>
+            <p>3. Click the "Delete Matching Playlists" button and confirm</p>
+            <p><strong>Note:</strong> Do not try to access this cleanup functionality directly via URL. Always use the form below.</p>
+        </div>
+        
+        <div class="warning">
+            <h2>⚠️ Warning: This will delete playlists!</h2>
+            <p>This page allows you to delete multiple playlists from your Spotify account based on a name pattern. This action cannot be undone.</p>
+            <p>Use this tool if you have accidentally created multiple duplicate playlists and need to clean them up.</p>
+        </div>
+        
+        <div class="form-section">
+            <h2>Cleanup Playlists</h2>
+            
+            <div id="auth-section">
+                <div class="input-group">
+                    <label for="access-token">Spotify Access Token</label>
+                    <input type="text" id="access-token" th:value="${accessToken}" placeholder="Paste your Spotify access token here">
+                </div>
+                
+                <div class="input-group">
+                    <label for="name-pattern">Playlist Name Pattern (Regular Expression)</label>
+                    <input type="text" id="name-pattern" value="JMS \d{2}\.\d{2}\.\d{2}" placeholder="e.g., JMS \d{2}\.\d{2}\.\d{2}">
+                    <p style="margin-top: 5px; font-size: 12px; color: #666;">Default pattern matches all "JMS DD.MM.YY" playlists</p>
+                </div>
+                
+                <button id="cleanup-button" class="button">Delete Matching Playlists</button>
+                <a href="/" class="button secondary" style="margin-left: 10px;">Back to Home</a>
+                <a href="/whatsapp/upload" class="button" style="margin-left: 10px; background-color: #1DB954;">WhatsApp Playlist Creator</a>
+            </div>
+        </div>
+        
+        <div id="results" style="display: none;"></div>
+    </div>
+    
+    <script>
+        document.getElementById('cleanup-button').addEventListener('click', function() {
+            // Show confirmation dialog
+            if (!confirm('Are you sure you want to delete all playlists matching the specified pattern? This action cannot be undone.')) {
+                return;
+            }
+            
+            // Get values
+            const accessToken = document.getElementById('access-token').value.trim();
+            const namePattern = document.getElementById('name-pattern').value.trim();
+            
+            // Validate inputs
+            if (!accessToken) {
+                alert('Please enter your Spotify access token');
+                return;
+            }
+            
+            // Show loading
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<p>Processing request, please wait...</p>';
+            
+            // Send request to server
+            const formData = new FormData();
+            formData.append('accessToken', accessToken);
+            formData.append('namePattern', namePattern);
+            
+            fetch('/debug/cleanup-playlists', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h3>Success!</h3>
+                            <p>${data.message}</p>
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="warning">
+                            <h3>Error</h3>
+                            <p>${data.error || 'An unknown error occurred'}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                resultsDiv.innerHTML = `
+                    <div class="warning">
+                        <h3>Error</h3>
+                        <p>Failed to send request: ${error.message}</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -82,6 +82,13 @@
         .file-input {
             margin-bottom: 15px;
         }
+        .success-message {
+            margin-bottom: 15px; 
+            padding: 10px; 
+            background-color: #d4edda; 
+            border-radius: 5px; 
+            color: #155724;
+        }
     </style>
 </head>
 <body>
@@ -107,18 +114,59 @@
         <div class="upload-form">
             <h2>Upload WhatsApp Chat Export</h2>
             
-            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <!-- Success message if authentication was successful -->
+            <div th:if="${success != null && success}" class="success-message">
+                <p><strong>Successfully connected with Spotify!</strong> You can now create playlists.</p>
+            </div>
+            
+            <!-- Information message about playlist checking -->
+            <div style="margin-bottom: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 5px; color: #2e7d32;">
+                <p><strong>INFO:</strong> The system checks for existing playlists on the JMS website in the "Weekly Mix DD.MM.YYYY" format and converts them to "JMS DD.MM.YY" format automatically.</p>
+                <p th:if="${jmsPlaylists != null}"><strong>Found <span th:text="${jmsPlaylists.size()}">0</span> playlists</strong> on the JMS website that will be skipped.</p>
+                <p><span style="color: #1DB954;">✓</span> New playlists will only be created if they don't already exist on the JMS website.</p>
+                <p>
+                    <!-- Pass the access token if available -->
+                    <a th:if="${accessToken != null}" th:href="@{/debug/cleanup-playlists(accessToken=${accessToken})}" style="color: #1DB954; font-weight: bold;">Cleanup Tool: Remove duplicate playlists if needed</a>
+                    <a th:unless="${accessToken != null}" href="/debug/cleanup-playlists" style="color: #1DB954; font-weight: bold;">Cleanup Tool: Remove duplicate playlists if needed</a>
+                </p>
+            </div>
+            
+            <!-- Conditional error message - only if there's no success message -->
+            <div th:if="${error != null && (success == null)}" class="error-message" th:text="${error}"></div>
+            
+            <!-- No access token warning -->
+            <div th:if="${accessToken == null && (success == null)}" style="margin-bottom: 10px; padding: 5px; background-color: #f8d7da; border-radius: 5px;">
+                <p>No access token available. Please connect with Spotify.</p>
+                <a href="/whatsapp/login" class="button" style="background-color: #1DB954; margin-top: 10px;">Connect with Spotify</a>
+            </div>
             
             <form th:action="@{/whatsapp/upload}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="accessToken" th:value="${accessToken}">
+                <!-- Debug info: show if token is present but user profile is not loaded -->
+                <div th:if="${userProfile == null && accessToken != null && success == null}" style="margin-bottom: 10px; padding: 5px; background-color: #fff3cd; border-radius: 5px;">
+                    <p>Access token is present but user profile could not be loaded. The token may be invalid.</p>
+                    <a href="/whatsapp/login" class="button" style="background-color: #1DB954; margin-top: 10px;">Reconnect with Spotify</a>
+                </div>
                 
                 <div class="file-input">
                     <label for="whatsapp-file">Select WhatsApp chat export file (.txt):</label>
                     <input type="file" id="whatsapp-file" name="file" accept=".txt" required>
                 </div>
                 
-                <button type="submit" class="button">Create Playlists</button>
+                <button type="submit" class="button" th:disabled="${accessToken == null}">Create Playlists</button>
             </form>
+            
+            <!-- Debug information (hidden by default) -->
+            <div id="debug-info" style="display: none; margin-top: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                <h4>Debug Information</h4>
+                <div id="url-params"></div>
+                <div id="token-info" th:if="${accessToken != null}">
+                    <p>Token Length: <span th:text="${accessToken.length()}"></span></p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 10px;">
+                <a href="#" onclick="toggleDebug(); return false;" style="color: #666; font-size: 12px;">Toggle Debug Info</a>
+            </p>
         </div>
         
         <!-- How it works section -->
@@ -163,10 +211,65 @@
             </div>
         </div>
         
+        <!-- Export Playlists -->
+        <div th:if="${accessToken != null}" class="info-section">
+            <h2>Export Playlists</h2>
+            <p>Export your Spotify playlists in JMS JSON format for use on the JMS website.</p>
+            <p>This will export all your "Weekly Mix" and "JMS Mix" playlists and generate a JSON file compatible with the JMS website.</p>
+            
+            <div style="margin-top: 15px;">
+                <a th:href="@{/api/playlists/export/download(accessToken=${accessToken})}" class="button" style="background-color: #1DB954; margin-right: 10px;">Download JSON Export</a>
+                <a th:href="@{/api/playlists/export(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #555; margin-right: 10px;">View JSON</a>
+                <a th:href="@{/api/playlists/export-debug(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #333;">Debug Export</a>
+            </div>
+        </div>
+        
         <!-- Navigation -->
         <div style="text-align: center; margin-top: 20px;">
             <a href="/" class="button" style="background-color: #777;">Back to Home</a>
         </div>
     </div>
+    
+    <script>
+        // Add debug information about URL parameters
+        function displayUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramsList = document.getElementById('url-params');
+            paramsList.innerHTML = '<h5>URL Parameters:</h5>';
+            
+            let paramContent = '<ul style="margin: 0; padding-left: 20px;">';
+            let hasParams = false;
+            
+            urlParams.forEach((value, key) => {
+                hasParams = true;
+                if (key === 'access_token' || key === 'accessToken') {
+                    // Only show first few characters of the token
+                    const displayValue = value.substring(0, 10) + '...';
+                    paramContent += `<li><strong>${key}</strong>: ${displayValue} (length: ${value.length})</li>`;
+                } else {
+                    paramContent += `<li><strong>${key}</strong>: ${value}</li>`;
+                }
+            });
+            
+            paramContent += '</ul>';
+            
+            if (!hasParams) {
+                paramContent = '<p>No URL parameters found.</p>';
+            }
+            
+            paramsList.innerHTML += paramContent;
+        }
+        
+        // Toggle debug information display
+        function toggleDebug() {
+            const debugInfo = document.getElementById('debug-info');
+            if (debugInfo.style.display === 'none') {
+                debugInfo.style.display = 'block';
+                displayUrlParams();
+            } else {
+                debugInfo.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

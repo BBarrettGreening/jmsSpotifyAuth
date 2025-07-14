@@ -23435,3 +23435,61 @@ Transfer-Encoding: <filtered>
 2025-07-14 11:20:05.720 DEBUG [reactor-http-nio-6] io.netty.buffer.PoolThreadCache - Freed 85 thread-local buffer(s) from thread: reactor-http-nio-6
 2025-07-14 11:20:05.720 DEBUG [reactor-http-nio-2] io.netty.buffer.PoolThreadCache - Freed 5 thread-local buffer(s) from thread: reactor-http-nio-2
 2025-07-14 11:20:05.721 DEBUG [reactor-http-nio-4] io.netty.buffer.PoolThreadCache - Freed 86 thread-local buffer(s) from thread: reactor-http-nio-4
+2025-07-14 11:36:30.107 INFO  [main] c.j.s.SpotifyPlaylistAuthApplication - Starting SpotifyPlaylistAuthApplication using Java 21.0.7 with PID 25840 (C:\Users\busta\Desktop\GitHub\jmsSpotifyAuth\build\classes\java\main started by busta in C:\Users\busta\Desktop\GitHub\jmsSpotifyAuth)
+2025-07-14 11:36:30.109 DEBUG [main] c.j.s.SpotifyPlaylistAuthApplication - Running with Spring Boot v3.4.3, Spring v6.2.3
+2025-07-14 11:36:30.110 INFO  [main] c.j.s.SpotifyPlaylistAuthApplication - No active profile set, falling back to 1 default profile: "default"
+2025-07-14 11:36:30.922 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-14 11:36:30.931 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-14 11:36:30.931 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-07-14 11:36:30.976 INFO  [main] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-14 11:36:30.977 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 827 ms
+2025-07-14 11:36:31.051 DEBUG [main] i.n.u.i.l.InternalLoggerFactory - Using SLF4J as the default logging framework
+2025-07-14 11:36:31.054 DEBUG [main] i.n.util.internal.PlatformDependent0 - -Dio.netty.noUnsafe: false
+2025-07-14 11:36:31.054 DEBUG [main] i.n.util.internal.PlatformDependent0 - Java version: 21
+2025-07-14 11:36:31.055 DEBUG [main] i.n.util.internal.PlatformDependent0 - sun.misc.Unsafe.theUnsafe: available
+2025-07-14 11:36:31.056 DEBUG [main] i.n.util.internal.PlatformDependent0 - sun.misc.Unsafe base methods: all available
+2025-07-14 11:36:31.056 DEBUG [main] i.n.util.internal.PlatformDependent0 - sun.misc.Unsafe.storeFence: available
+2025-07-14 11:36:31.057 DEBUG [main] i.n.util.internal.PlatformDependent0 - java.nio.Buffer.address: available
+2025-07-14 11:36:31.058 DEBUG [main] i.n.util.internal.PlatformDependent0 - direct buffer constructor: unavailable: Reflective setAccessible(true) disabled
+2025-07-14 11:36:31.059 DEBUG [main] i.n.util.internal.PlatformDependent0 - java.nio.Bits.unaligned: available, true
+2025-07-14 11:36:31.060 DEBUG [main] i.n.util.internal.PlatformDependent0 - jdk.internal.misc.Unsafe.allocateUninitializedArray(int): unavailable: class io.netty.util.internal.PlatformDependent0$7 cannot access class jdk.internal.misc.Unsafe (in module java.base) because module java.base does not export jdk.internal.misc to unnamed module @7817fd62
+2025-07-14 11:36:31.060 DEBUG [main] i.n.util.internal.PlatformDependent0 - java.nio.DirectByteBuffer.<init>(long, {int,long}): unavailable
+2025-07-14 11:36:31.060 DEBUG [main] i.n.util.internal.PlatformDependent - sun.misc.Unsafe: available
+2025-07-14 11:36:31.061 DEBUG [main] i.n.util.internal.PlatformDependent - -Dio.netty.tmpdir: C:\Users\busta\AppData\Local\Temp (java.io.tmpdir)
+2025-07-14 11:36:31.061 DEBUG [main] i.n.util.internal.PlatformDependent - -Dio.netty.bitMode: 64 (sun.arch.data.model)
+2025-07-14 11:36:31.061 DEBUG [main] i.n.util.internal.PlatformDependent - Platform: Windows
+2025-07-14 11:36:31.062 DEBUG [main] i.n.util.internal.PlatformDependent - -Dio.netty.maxDirectMemory: -1 bytes
+2025-07-14 11:36:31.062 DEBUG [main] i.n.util.internal.PlatformDependent - -Dio.netty.uninitializedArrayAllocationThreshold: -1
+2025-07-14 11:36:31.063 DEBUG [main] io.netty.util.internal.CleanerJava9 - java.nio.ByteBuffer.cleaner(): available
+2025-07-14 11:36:31.063 DEBUG [main] i.n.util.internal.PlatformDependent - -Dio.netty.noPreferDirect: false
+2025-07-14 11:36:31.095 DEBUG [main] i.n.u.i.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.initialSize: 1024
+2025-07-14 11:36:31.095 DEBUG [main] i.n.u.i.InternalThreadLocalMap - -Dio.netty.threadLocalMap.stringBuilder.maxSize: 4096
+2025-07-14 11:36:31.117 DEBUG [main] io.netty.util.ResourceLeakDetector - -Dio.netty.leakDetection.level: simple
+2025-07-14 11:36:31.118 DEBUG [main] io.netty.util.ResourceLeakDetector - -Dio.netty.leakDetection.targetRecords: 4
+2025-07-14 11:36:31.138 DEBUG [main] i.n.handler.codec.compression.Brotli - brotli4j not in the classpath; Brotli support will be unavailable.
+2025-07-14 11:36:31.242 INFO  [main] c.j.s.service.JmsWebsiteService - Initializing WebClient with automatic redirect following
+2025-07-14 11:36:31.302 INFO  [main] o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+2025-07-14 11:36:31.353 DEBUG [main] o.s.w.s.m.m.a.RequestMappingHandlerMapping - 33 mappings in 'requestMappingHandlerMapping'
+2025-07-14 11:36:31.376 DEBUG [main] o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-07-14 11:36:31.456 DEBUG [main] o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-07-14 11:36:31.515 DEBUG [main] o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-07-14 11:36:31.605 DEBUG [main] i.n.c.MultithreadEventLoopGroup - -Dio.netty.eventLoopThreads: 32
+2025-07-14 11:36:31.612 DEBUG [main] i.n.u.concurrent.GlobalEventExecutor - -Dio.netty.globalEventExecutor.quietPeriodSeconds: 1
+2025-07-14 11:36:31.620 DEBUG [main] io.netty.channel.nio.NioEventLoop - -Dio.netty.noKeySetOptimization: false
+2025-07-14 11:36:31.621 DEBUG [main] io.netty.channel.nio.NioEventLoop - -Dio.netty.selectorAutoRebuildThreshold: 512
+2025-07-14 11:36:31.626 DEBUG [main] i.n.util.internal.PlatformDependent - org.jctools-core.MpscChunkedArrayQueue: available
+2025-07-14 11:36:31.654 DEBUG [main] io.netty.util.NetUtil - -Djava.net.preferIPv4Stack: false
+2025-07-14 11:36:31.654 DEBUG [main] io.netty.util.NetUtil - -Djava.net.preferIPv6Addresses: false
+2025-07-14 11:36:31.657 DEBUG [main] i.netty.util.NetUtilInitializations - Loopback interface: loopback_0 (Software Loopback Interface 1, 0:0:0:0:0:0:0:1)
+2025-07-14 11:36:31.658 DEBUG [main] io.netty.util.NetUtil - Failed to get SOMAXCONN from sysctl and file \proc\sys\net\core\somaxconn. Default: 200
+2025-07-14 11:36:31.659 DEBUG [main] i.netty.resolver.dns.DnsNameResolver - Default ResolvedAddressTypes: IPV4_PREFERRED
+2025-07-14 11:36:31.659 DEBUG [main] i.netty.resolver.dns.DnsNameResolver - Localhost address: localhost/127.0.0.1
+2025-07-14 11:36:31.659 DEBUG [main] i.netty.resolver.dns.DnsNameResolver - Windows hostname: Baptop
+2025-07-14 11:36:31.659 DEBUG [main] i.netty.resolver.dns.DnsNameResolver - Default search domains: []
+2025-07-14 11:36:31.660 DEBUG [main] i.netty.resolver.dns.DnsNameResolver - Default UnixResolverOptions{ndots=1, timeout=5, attempts=16}
+2025-07-14 11:36:31.664 DEBUG [main] i.n.r.DefaultHostsFileEntriesResolver - -Dio.netty.hostsFileRefreshInterval: 0
+2025-07-14 11:36:31.675 DEBUG [main] i.n.r.d.DefaultDnsServerAddressStreamProvider - Default DNS servers: [/192.168.1.254:53] (sun.net.dns.ResolverConfiguration)
+2025-07-14 11:36:31.691 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-14 11:36:31.697 INFO  [main] c.j.s.SpotifyPlaylistAuthApplication - Started SpotifyPlaylistAuthApplication in 2.068 seconds (process running for 2.72)
+2025-07-14 11:36:38.398 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-07-14 11:36:38.407 INFO  [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

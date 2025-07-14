@@ -162,13 +162,17 @@
         <!-- Export Playlists -->
         <div th:if="${accessToken != null && ((createdPlaylists != null && !createdPlaylists.empty) || success != null)}" class="playlists-section">
             <h2>Export Playlists</h2>
-            <p>You can export your Spotify playlists in JMS JSON format for use on the JMS website.</p>
-            <p>This will export all your "Weekly Mix" and "JMS Mix" playlists and generate a JSON file compatible with the JMS website.</p>
+            <p>You can export your Spotify playlists for use on the JMS website.</p>
+            <p>This will export all your "Weekly Mix" and "JMS Mix" playlists in the exact format used by the JMS website.</p>
             
             <div style="margin-top: 15px;">
-                <a th:href="@{/api/playlists/export/download(accessToken=${accessToken})}" class="button" style="background-color: #1DB954; margin-right: 10px;">Download JSON Export</a>
-                <a th:href="@{/api/playlists/export(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #555; margin-right: 10px;">View JSON</a>
+                <a th:href="@{/api/playlists/export/javascript/download(accessToken=${accessToken})}" class="button" style="background-color: #1DB954; margin-right: 10px;">Download JS Export</a>
+                <a th:href="@{/api/playlists/export/javascript(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #555; margin-right: 10px;">View JS</a>
                 <a th:href="@{/api/playlists/export-debug(accessToken=${accessToken})}" target="_blank" class="button" style="background-color: #333;">Debug Export</a>
+            </div>
+            
+            <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                <p>The JavaScript export format can be directly used on the JMS website without any modifications.</p>
             </div>
         </div>
         

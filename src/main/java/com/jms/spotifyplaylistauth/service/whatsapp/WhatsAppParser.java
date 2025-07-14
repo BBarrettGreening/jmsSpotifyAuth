@@ -9,8 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,112 +23,148 @@ import java.util.regex.Pattern;
 @Service
 public class WhatsAppParser {
     private static final Logger logger = LoggerFactory.getLogger(WhatsAppParser.class);
-    
-    // Multiple patterns to match different WhatsApp message formats
-    private static final Pattern MESSAGE_PATTERN_1 = Pattern.compile("\\[(\\d{2}/\\d{2}/\\d{2,4}),\\s(\\d{1,2}:\\d{2}(?::\\d{2})?)\\]\\s([^:]+):\\s(.+)");
-    private static final Pattern MESSAGE_PATTERN_2 = Pattern.compile("(\\d{2}/\\d{2}/\\d{2,4}),\\s(\\d{1,2}:\\d{2}(?::\\d{2})?)\\s-\\s([^:]+):\\s(.+)");
-    private static final Pattern MESSAGE_PATTERN_3 = Pattern.compile("(\\d{2}/\\d{2}/\\d{4}),\\s(\\d{1,2}:\\d{2})\\s-\\s([^:]+):\\s(.+)");
-    
-    // Different date formats
-    private static final DateTimeFormatter DATE_FORMATTER_1 = DateTimeFormatter.ofPattern("dd/MM/yy, HH:mm:ss");
-    private static final DateTimeFormatter DATE_FORMATTER_2 = DateTimeFormatter.ofPattern("dd/MM/yy, HH:mm");
-    private static final DateTimeFormatter DATE_FORMATTER_3 = DateTimeFormatter.ofPattern("MM/dd/yy, HH:mm:ss");
-    private static final DateTimeFormatter DATE_FORMATTER_4 = DateTimeFormatter.ofPattern("MM/dd/yy, HH:mm");
-    private static final DateTimeFormatter DATE_FORMATTER_5 = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm:ss");
-    private static final DateTimeFormatter DATE_FORMATTER_6 = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm");
-    private static final DateTimeFormatter DATE_FORMATTER_7 = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss");
-    private static final DateTimeFormatter DATE_FORMATTER_8 = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm");
 
+    // Updated regex to handle multiple date formats found in WhatsApp exports
+    // Handles formats like: "2/16/24, 07:44 - +44 7999 431711: message"
+    // and: "[04.05.24, 15:22] Name: message"
+    private static final Pattern MESSAGE_PATTERN = Pattern.compile(
+            "^\\[?(\\d{1,2}[/.]\\d{1,2}[/.]\\d{2,4}),?\\s(\\d{1,2}:\\d{2}(?::\\d{2})?)\\]?\\s-?\\s*([^:]+):\\s(.+)",
+            Pattern.DOTALL
+    );
+
+    // Flexible date formatter that can parse multiple date patterns
+    private static final DateTimeFormatter DATE_FORMATTER = new DateTimeFormatterBuilder()
+            .appendOptional(DateTimeFormatter.ofPattern("M/d/yy"))      // 2/16/24
+            .appendOptional(DateTimeFormatter.ofPattern("MM/dd/yy"))    // 02/16/24
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yy"))      // 16/2/24
+            .appendOptional(DateTimeFormatter.ofPattern("dd/MM/yy"))    // 16/02/24
+            .appendOptional(DateTimeFormatter.ofPattern("dd.MM.yy"))    // 16.02.24
+            .appendOptional(DateTimeFormatter.ofPattern("d.M.yy"))      // 16.2.24
+            .appendOptional(DateTimeFormatter.ofPattern("M/d/yyyy"))    // 2/16/2024
+            .appendOptional(DateTimeFormatter.ofPattern("MM/dd/yyyy"))  // 02/16/2024
+            .appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy"))    // 16/2/2024
+            .appendOptional(DateTimeFormatter.ofPattern("dd/MM/yyyy"))  // 16/02/2024
+            .appendOptional(DateTimeFormatter.ofPattern("dd.MM.yyyy"))  // 16.02.2024
+            .appendOptional(DateTimeFormatter.ofPattern("d.M.yyyy"))    // 16.2.2024
+            .toFormatter();
+
+    /**
+     * Parses WhatsApp chat export handling multi-line messages by reading in blocks
+     */
     public List<WhatsAppMessage> parseWhatsAppChatExport(MultipartFile file) throws IOException {
         List<WhatsAppMessage> messages = new ArrayList<>();
         int lineCount = 0;
-        int parsedCount = 0;
-        
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            StringBuilder messageBlock = new StringBuilder();
             String line;
+
             while ((line = reader.readLine()) != null) {
                 lineCount++;
-                WhatsAppMessage message = parseMessageLine(line);
+                
+                // Check if this line starts a new message
+                if (isNewMessage(line)) {
+                    // If we have a previous message block, parse it
+                    if (messageBlock.length() > 0) {
+                        WhatsAppMessage message = parseMessageBlock(messageBlock.toString());
+                        if (message != null) {
+                            messages.add(message);
+                        }
+                        messageBlock.setLength(0); // Reset for new message
+                    }
+                }
+                
+                // Add the current line to the message block
+                messageBlock.append(line);
+                if (!line.isEmpty()) {
+                    messageBlock.append(System.lineSeparator());
+                }
+            }
+
+            // Parse the final message block
+            if (messageBlock.length() > 0) {
+                WhatsAppMessage message = parseMessageBlock(messageBlock.toString());
                 if (message != null) {
                     messages.add(message);
-                    parsedCount++;
                 }
             }
         }
-        
-        logger.info("Processed {} lines, parsed {} messages from WhatsApp chat export", lineCount, parsedCount);
+
+        logger.info("Processed {} lines and parsed {} messages from WhatsApp chat export", lineCount, messages.size());
         return messages;
     }
-    
-    private WhatsAppMessage parseMessageLine(String line) {
-        // Try pattern 1 (with brackets)
-        Matcher matcher = MESSAGE_PATTERN_1.matcher(line);
-        if (!matcher.find()) {
-            // Try pattern 2 (without brackets)
-            matcher = MESSAGE_PATTERN_2.matcher(line);
-            if (!matcher.find()) {
-                // Try pattern 3 (another format)
-                matcher = MESSAGE_PATTERN_3.matcher(line);
-                if (!matcher.find()) {
-                    return null;
-                }
-            }
+
+    /**
+     * Checks if a line starts a new WhatsApp message
+     */
+    private boolean isNewMessage(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            return false;
         }
+        return MESSAGE_PATTERN.matcher(line).find();
+    }
+
+    /**
+     * Parses a complete message block (potentially multi-line)
+     */
+    private WhatsAppMessage parseMessageBlock(String block) {
+        if (block == null || block.trim().isEmpty()) {
+            return null;
+        }
+
+        String trimmedBlock = block.trim();
+        Matcher matcher = MESSAGE_PATTERN.matcher(trimmedBlock);
         
-        try {
-            String dateStr = matcher.group(1);
-            String timeStr = matcher.group(2);
-            String dateTimeStr = dateStr + ", " + timeStr;
-            
-            // Try different date formats
-            LocalDateTime timestamp = tryParseDateTime(dateTimeStr);
-            if (timestamp == null) {
-                logger.warn("Failed to parse date/time from line: {}", line);
+        if (matcher.find()) {
+            try {
+                String dateStr = matcher.group(1);
+                String timeStr = matcher.group(2);
+                String author = matcher.group(3).trim();
+                String content = matcher.group(4).trim();
+
+                // Parse the date using flexible formatter
+                LocalDate date = LocalDate.parse(dateStr, DATE_FORMATTER);
+                
+                // Create a LocalDateTime with the parsed date (time not crucial for Friday filtering)
+                LocalDateTime timestamp = date.atStartOfDay();
+
+                logger.debug("Parsed message: Date={}, Author={}, Content length={}", 
+                           date, author, content.length());
+
+                return new WhatsAppMessage(timestamp, author, content);
+                
+            } catch (DateTimeParseException e) {
+                logger.warn("Could not parse date from message block: {}", 
+                          trimmedBlock.substring(0, Math.min(100, trimmedBlock.length())), e);
+                return null;
+            } catch (Exception e) {
+                logger.warn("Error parsing message block: {}", 
+                          trimmedBlock.substring(0, Math.min(100, trimmedBlock.length())), e);
                 return null;
             }
-            
-            String sender = matcher.group(3).trim();
-            String content = matcher.group(4).trim();
-            
-            logger.debug("Parsed message: date={}, sender={}, content={}", timestamp, sender, 
-                    content.length() > 30 ? content.substring(0, 30) + "..." : content);
-            
-            return new WhatsAppMessage(timestamp, sender, content);
-        } catch (Exception e) {
-            logger.warn("Error parsing message line: {}", line, e);
+        } else {
+            logger.debug("Message block did not match pattern: {}", 
+                       trimmedBlock.substring(0, Math.min(50, trimmedBlock.length())));
             return null;
         }
     }
-    
-    private LocalDateTime tryParseDateTime(String dateTimeStr) {
-        // Try all date formats
-        DateTimeFormatter[] formatters = {
-            DATE_FORMATTER_1, DATE_FORMATTER_2, DATE_FORMATTER_3, DATE_FORMATTER_4,
-            DATE_FORMATTER_5, DATE_FORMATTER_6, DATE_FORMATTER_7, DATE_FORMATTER_8
-        };
-        
-        for (DateTimeFormatter formatter : formatters) {
-            try {
-                return LocalDateTime.parse(dateTimeStr, formatter);
-            } catch (DateTimeParseException e) {
-                // Continue with next formatter
-            }
-        }
-        
-        logger.warn("Could not parse date/time string: {}", dateTimeStr);
-        return null;
-    }
-    
+
+    /**
+     * Filters messages to find those sent on Friday that contain Spotify links
+     */
     public List<WhatsAppMessage> filterFridaySpotifyMessages(List<WhatsAppMessage> messages) {
         List<WhatsAppMessage> fridaySpotifyMessages = new ArrayList<>();
-        
+
         for (WhatsAppMessage message : messages) {
             if (message.isFriday() && message.hasSpotifyLink()) {
                 fridaySpotifyMessages.add(message);
-                logger.debug("Found Friday Spotify message: {}", message);
+                logger.debug("Found Friday Spotify message: Date={}, Author={}, Content={}", 
+                           message.getTimestamp().toLocalDate(), 
+                           message.getAuthor(), 
+                           message.getContent().substring(0, Math.min(100, message.getContent().length())));
             }
         }
-        
+
         logger.info("Found {} messages with Spotify links sent on Fridays", fridaySpotifyMessages.size());
         return fridaySpotifyMessages;
     }

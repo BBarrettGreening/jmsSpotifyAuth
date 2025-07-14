@@ -1,0 +1,334 @@
+2025-05-19T12:17:30.853+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410-6, L:/192.168.0.21:58956 - R:www.jurassicmusicsociety.com/66.33.60.130:443] READ: 2819B
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 2c 22 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 |,"Weekly"]},{"id|
+|00000010| 22 3a 31 38 2c 22 74 69 74 6c 65 22 3a 22 57 65 |":18,"title":"We|
+|00000020| 65 6b 6c 79 20 4d 69 78 20 32 36 2e 30 37 2e 32 |ekly Mix 26.07.2|
+|00000030| 30 32 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 |024","link":"htt|
+|00000040| 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 |ps://open.spotif|
+|00000050| 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 |y.com/embed/play|
+|00000060| 6c 69 73 74 2f 33 45 61 6f 6d 4b 68 55 30 48 70 |list/3EaomKhU0Hp|
+|00000070| 62 78 49 65 71 66 59 76 57 4e 6b 3f 75 74 6d 5f |bxIeqfYvWNk?utm_|
+|00000080| 73 6f 75 72 63 65 3d 67 65 6e 65 72 61 74 6f 72 |source=generator|
+|00000090| 22 2c 22 74 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 |","tag":["All","|
+|000000a0| 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a |Weekly"]},{"id":|
+|000000b0| 31 37 2c 22 74 69 74 6c 65 22 3a 22 57 65 65 6b |17,"title":"Week|
+|000000c0| 6c 79 20 4d 69 78 20 31 32 2e 30 37 2e 32 30 32 |ly Mix 12.07.202|
+|000000d0| 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 |4","link":"https|
+|000000e0| 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e |://open.spotify.|
+|000000f0| 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 |com/embed/playli|
+|00000100| 73 74 2f 30 79 47 45 79 73 57 4e 61 77 59 6d 4a |st/0yGEysWNawYmJ|
+|00000110| 52 79 74 4e 6a 34 75 64 6d 3f 75 74 6d 5f 73 6f |RytNj4udm?utm_so|
+|00000120| 75 72 63 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c |urce=generator",|
+|00000130| 22 74 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 |"tag":["All","We|
+|00000140| 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a 31 36 |ekly"]},{"id":16|
+|00000150| 2c 22 74 69 74 6c 65 22 3a 22 57 65 65 6b 6c 79 |,"title":"Weekly|
+|00000160| 20 4d 69 78 20 32 38 2e 30 36 2e 32 30 32 34 22 | Mix 28.06.2024"|
+|00000170| 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f |,"link":"https:/|
+|00000180| 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f |/open.spotify.co|
+|00000190| 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 |m/embed/playlist|
+|000001a0| 2f 35 64 39 57 64 59 79 6e 4b 61 70 64 78 79 32 |/5d9WdYynKapdxy2|
+|000001b0| 35 6b 33 46 34 69 32 3f 75 74 6d 5f 73 6f 75 72 |5k3F4i2?utm_sour|
+|000001c0| 63 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 |ce=generator","t|
+|000001d0| 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 65 6b |ag":["All","Week|
+|000001e0| 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a 31 35 2c 22 |ly"]},{"id":15,"|
+|000001f0| 74 69 74 6c 65 22 3a 22 57 65 65 6b 6c 79 20 4d |title":"Weekly M|
+|00000200| 69 78 20 31 34 2e 30 36 2e 32 30 32 34 22 2c 22 |ix 14.06.2024","|
+|00000210| 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f 2f 6f |link":"https://o|
+|00000220| 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f |pen.spotify.com/|
+|00000230| 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 2f 30 |embed/playlist/0|
+|00000240| 49 68 77 56 52 6b 36 7a 71 65 41 75 62 37 74 36 |IhwVRk6zqeAub7t6|
+|00000250| 67 37 49 52 69 3f 75 74 6d 5f 73 6f 75 72 63 65 |g7IRi?utm_source|
+|00000260| 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 61 67 |=generator","tag|
+|00000270| 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 65 6b 6c 79 |":["All","Weekly|
+|00000280| 22 5d 7d 2c 7b 22 69 64 22 3a 31 34 2c 22 74 69 |"]},{"id":14,"ti|
+|00000290| 74 6c 65 22 3a 22 57 65 65 6b 6c 79 20 4d 69 78 |tle":"Weekly Mix|
+|000002a0| 20 30 37 2e 30 36 2e 32 30 32 34 22 2c 22 6c 69 | 07.06.2024","li|
+|000002b0| 6e 6b 22 3a 22 68 74 74 70 73 3a 2f 2f 6f 70 65 |nk":"https://ope|
+|000002c0| 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 65 6d |n.spotify.com/em|
+|000002d0| 62 65 64 2f 70 6c 61 79 6c 69 73 74 2f 33 73 68 |bed/playlist/3sh|
+|000002e0| 62 30 55 71 34 37 49 4f 42 77 62 4e 66 44 78 46 |b0Uq47IOBwbNfDxF|
+|000002f0| 31 43 34 3f 75 74 6d 5f 73 6f 75 72 63 65 3d 67 |1C4?utm_source=g|
+|00000300| 65 6e 65 72 61 74 6f 72 22 2c 22 74 61 67 22 3a |enerator","tag":|
+|00000310| 5b 22 41 6c 6c 22 2c 22 57 65 65 6b 6c 79 22 5d |["All","Weekly"]|
+|00000320| 7d 2c 7b 22 69 64 22 3a 31 33 2c 22 74 69 74 6c |},{"id":13,"titl|
+|00000330| 65 22 3a 22 57 65 65 6b 6c 79 20 4d 69 78 20 32 |e":"Weekly Mix 2|
+|00000340| 34 2e 30 35 2e 32 30 32 34 22 2c 22 6c 69 6e 6b |4.05.2024","link|
+|00000350| 22 3a 22 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e |":"https://open.|
+|00000360| 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 65 6d 62 65 |spotify.com/embe|
+|00000370| 64 2f 70 6c 61 79 6c 69 73 74 2f 33 56 39 63 6d |d/playlist/3V9cm|
+|00000380| 36 75 64 4e 39 6d 74 56 41 51 79 75 48 4b 63 71 |6udN9mtVAQyuHKcq|
+|00000390| 64 3f 75 74 6d 5f 73 6f 75 72 63 65 3d 67 65 6e |d?utm_source=gen|
+|000003a0| 65 72 61 74 6f 72 22 2c 22 74 61 67 22 3a 5b 22 |erator","tag":["|
+|000003b0| 41 6c 6c 22 2c 22 57 65 65 6b 6c 79 22 5d 7d 2c |All","Weekly"]},|
+|000003c0| 7b 22 69 64 22 3a 31 32 2c 22 74 69 74 6c 65 22 |{"id":12,"title"|
+|000003d0| 3a 22 57 65 65 6b 6c 79 20 4d 69 78 20 31 30 2e |:"Weekly Mix 10.|
+|000003e0| 30 35 2e 32 30 32 34 22 2c 22 6c 69 6e 6b 22 3a |05.2024","link":|
+|000003f0| 22 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 |"https://open.sp|
+|00000400| 6f 74 69 66 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f |otify.com/embed/|
+|00000410| 70 6c 61 79 6c 69 73 74 2f 35 68 44 52 4c 4a 46 |playlist/5hDRLJF|
+|00000420| 46 68 7a 50 7a 76 69 37 33 37 31 6c 46 44 6d 3f |FhzPzvi7371lFDm?|
+|00000430| 75 74 6d 5f 73 6f 75 72 63 65 3d 67 65 6e 65 72 |utm_source=gener|
+|00000440| 61 74 6f 72 22 2c 22 74 61 67 22 3a 5b 22 41 6c |ator","tag":["Al|
+|00000450| 6c 22 2c 22 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 |l","Weekly"]},{"|
+|00000460| 69 64 22 3a 31 31 2c 22 74 69 74 6c 65 22 3a 22 |id":11,"title":"|
+|00000470| 57 65 65 6b 6c 79 20 4d 69 78 20 32 36 2e 30 34 |Weekly Mix 26.04|
+|00000480| 2e 32 30 32 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 |.2024","link":"h|
+|00000490| 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 |ttps://open.spot|
+|000004a0| 69 66 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c |ify.com/embed/pl|
+|000004b0| 61 79 6c 69 73 74 2f 35 50 78 48 6c 43 72 64 47 |aylist/5PxHlCrdG|
+|000004c0| 33 6c 52 32 37 4d 55 74 48 36 73 33 71 3f 75 74 |3lR27MUtH6s3q?ut|
+|000004d0| 6d 5f 73 6f 75 72 63 65 3d 67 65 6e 65 72 61 74 |m_source=generat|
+|000004e0| 6f 72 22 2c 22 74 61 67 22 3a 5b 22 41 6c 6c 22 |or","tag":["All"|
+|000004f0| 2c 22 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 |,"Weekly"]},{"id|
+|00000500| 22 3a 31 30 2c 22 74 69 74 6c 65 22 3a 22 57 65 |":10,"title":"We|
+|00000510| 65 6b 6c 79 20 4d 69 78 20 31 39 2e 30 34 2e 32 |ekly Mix 19.04.2|
+|00000520| 30 32 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 |024","link":"htt|
+|00000530| 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 |ps://open.spotif|
+|00000540| 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 |y.com/embed/play|
+|00000550| 6c 69 73 74 2f 31 77 45 4c 4f 65 46 49 36 43 52 |list/1wELOeFI6CR|
+|00000560| 69 56 51 76 4c 77 71 32 41 58 69 3f 75 74 6d 5f |iVQvLwq2AXi?utm_|
+|00000570| 73 6f 75 72 63 65 3d 67 65 6e 65 72 61 74 6f 72 |source=generator|
+|00000580| 22 2c 22 74 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 |","tag":["All","|
+|00000590| 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a |Weekly"]},{"id":|
+|000005a0| 39 2c 22 74 69 74 6c 65 22 3a 22 57 65 65 6b 6c |9,"title":"Weekl|
+|000005b0| 79 20 4d 69 78 20 31 32 2e 30 34 2e 32 30 32 34 |y Mix 12.04.2024|
+|000005c0| 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a |","link":"https:|
+|000005d0| 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 |//open.spotify.c|
+|000005e0| 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 |om/embed/playlis|
+|000005f0| 74 2f 32 49 34 51 61 78 53 78 6b 51 66 41 6f 72 |t/2I4QaxSxkQfAor|
+|00000600| 45 48 6f 37 5a 5a 51 7a 3f 75 74 6d 5f 73 6f 75 |EHo7ZZQz?utm_sou|
+|00000610| 72 63 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 |rce=generator","|
+|00000620| 74 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 65 |tag":["All","Wee|
+|00000630| 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a 38 2c 22 |kly"]},{"id":8,"|
+|00000640| 74 69 74 6c 65 22 3a 22 57 65 65 6b 6c 79 20 4d |title":"Weekly M|
+|00000650| 69 78 20 30 35 2e 30 34 2e 32 30 32 34 22 2c 22 |ix 05.04.2024","|
+|00000660| 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f 2f 6f |link":"https://o|
+|00000670| 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f |pen.spotify.com/|
+|00000680| 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 2f 34 |embed/playlist/4|
+|00000690| 68 34 63 7a 49 34 6d 65 42 6a 72 46 33 79 44 35 |h4czI4meBjrF3yD5|
+|000006a0| 67 41 6a 44 66 3f 75 74 6d 5f 73 6f 75 72 63 65 |gAjDf?utm_source|
+|000006b0| 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 61 67 |=generator","tag|
+|000006c0| 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 65 6b 6c 79 |":["All","Weekly|
+|000006d0| 22 5d 7d 2c 7b 22 69 64 22 3a 37 2c 22 74 69 74 |"]},{"id":7,"tit|
+|000006e0| 6c 65 22 3a 22 57 65 65 6b 6c 79 20 4d 69 78 20 |le":"Weekly Mix |
+|000006f0| 32 39 2e 30 33 2e 32 30 32 34 22 2c 22 6c 69 6e |29.03.2024","lin|
+|00000700| 6b 22 3a 22 68 74 74 70 73 3a 2f 2f 6f 70 65 6e |k":"https://open|
+|00000710| 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 65 6d 62 |.spotify.com/emb|
+|00000720| 65 64 2f 70 6c 61 79 6c 69 73 74 2f 33 47 42 6c |ed/playlist/3GBl|
+|00000730| 34 6f 35 4e 54 57 52 4a 37 51 41 6e 51 50 43 74 |4o5NTWRJ7QAnQPCt|
+|00000740| 61 4c 3f 75 74 6d 5f 73 6f 75 72 63 65 3d 67 65 |aL?utm_source=ge|
+|00000750| 6e 65 72 61 74 6f 72 22 2c 22 74 61 67 22 3a 5b |nerator","tag":[|
+|00000760| 22 41 6c 6c 22 2c 22 57 65 65 6b 6c 79 22 5d 7d |"All","Weekly"]}|
+|00000770| 2c 7b 22 69 64 22 3a 36 2c 22 74 69 74 6c 65 22 |,{"id":6,"title"|
+|00000780| 3a 22 57 65 65 6b 6c 79 20 4d 69 78 20 32 32 2e |:"Weekly Mix 22.|
+|00000790| 30 33 2e 32 30 32 34 22 2c 22 6c 69 6e 6b 22 3a |03.2024","link":|
+|000007a0| 22 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 |"https://open.sp|
+|000007b0| 6f 74 69 66 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f |otify.com/embed/|
+|000007c0| 70 6c 61 79 6c 69 73 74 2f 30 73 34 33 6a 47 69 |playlist/0s43jGi|
+|000007d0| 66 43 37 42 75 73 52 43 6a 38 63 31 62 4e 55 3f |fC7BusRCj8c1bNU?|
+|000007e0| 75 74 6d 5f 73 6f 75 72 63 65 3d 67 65 6e 65 72 |utm_source=gener|
+|000007f0| 61 74 6f 72 22 2c 22 74 61 67 22 3a 5b 22 41 6c |ator","tag":["Al|
+|00000800| 6c 22 2c 22 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 |l","Weekly"]},{"|
+|00000810| 69 64 22 3a 35 2c 22 74 69 74 6c 65 22 3a 22 57 |id":5,"title":"W|
+|00000820| 65 65 6b 6c 79 20 4d 69 78 20 30 31 2e 30 33 2e |eekly Mix 01.03.|
+|00000830| 32 30 32 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 |2024","link":"ht|
+|00000840| 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 |tps://open.spoti|
+|00000850| 66 79 2e 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 |fy.com/embed/pla|
+|00000860| 79 6c 69 73 74 2f 33 48 73 42 71 65 30 6e 6c 46 |ylist/3HsBqe0nlF|
+|00000870| 6b 71 4e 74 31 76 6b 76 50 44 71 42 3f 75 74 6d |kqNt1vkvPDqB?utm|
+|00000880| 5f 73 6f 75 72 63 65 3d 67 65 6e 65 72 61 74 6f |_source=generato|
+|00000890| 72 22 2c 22 74 61 67 22 3a 5b 22 41 6c 6c 22 2c |r","tag":["All",|
+|000008a0| 22 57 65 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 |"Weekly"]},{"id"|
+|000008b0| 3a 34 2c 22 74 69 74 6c 65 22 3a 22 57 65 65 6b |:4,"title":"Week|
+|000008c0| 6c 79 20 4d 69 78 20 32 33 2e 30 32 2e 32 30 32 |ly Mix 23.02.202|
+|000008d0| 34 22 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 |4","link":"https|
+|000008e0| 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e |://open.spotify.|
+|000008f0| 63 6f 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 |com/embed/playli|
+|00000900| 73 74 2f 36 49 76 57 67 52 64 63 64 51 54 67 77 |st/6IvWgRdcdQTgw|
+|00000910| 66 47 4d 45 52 6f 45 34 38 3f 75 74 6d 5f 73 6f |fGMERoE48?utm_so|
+|00000920| 75 72 63 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c |urce=generator",|
+|00000930| 22 74 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 |"tag":["All","We|
+|00000940| 65 6b 6c 79 22 5d 7d 2c 7b 22 69 64 22 3a 33 2c |ekly"]},{"id":3,|
+|00000950| 22 74 69 74 6c 65 22 3a 22 57 65 65 6b 6c 79 20 |"title":"Weekly |
+|00000960| 4d 69 78 20 31 36 2e 30 32 2e 32 30 32 34 22 2c |Mix 16.02.2024",|
+|00000970| 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f 2f |"link":"https://|
+|00000980| 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d |open.spotify.com|
+|00000990| 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 2f |/embed/playlist/|
+|000009a0| 36 58 56 6a 34 62 6c 52 62 71 31 69 51 49 50 4d |6XVj4blRbq1iQIPM|
+|000009b0| 38 77 77 46 35 52 3f 75 74 6d 5f 73 6f 75 72 63 |8wwF5R?utm_sourc|
+|000009c0| 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 61 |e=generator","ta|
+|000009d0| 67 22 3a 5b 22 41 6c 6c 22 2c 22 57 65 65 6b 6c |g":["All","Weekl|
+|000009e0| 79 22 5d 7d 2c 7b 22 69 64 22 3a 32 2c 22 74 69 |y"]},{"id":2,"ti|
+|000009f0| 74 6c 65 22 3a 22 4a 4d 53 20 4d 69 78 20 32 22 |tle":"JMS Mix 2"|
+|00000a00| 2c 22 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f |,"link":"https:/|
+|00000a10| 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f |/open.spotify.co|
+|00000a20| 6d 2f 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 |m/embed/playlist|
+|00000a30| 2f 33 6f 54 75 33 76 44 49 43 6d 59 7a 52 75 69 |/3oTu3vDICmYzRui|
+|00000a40| 55 4f 6e 4c 78 41 4f 3f 75 74 6d 5f 73 6f 75 72 |UOnLxAO?utm_sour|
+|00000a50| 63 65 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 |ce=generator","t|
+|00000a60| 61 67 22 3a 5b 22 41 6c 6c 22 2c 22 4a 4d 53 22 |ag":["All","JMS"|
+|00000a70| 5d 7d 2c 7b 22 69 64 22 3a 31 2c 22 74 69 74 6c |]},{"id":1,"titl|
+|00000a80| 65 22 3a 22 4a 4d 53 20 4d 69 78 20 31 22 2c 22 |e":"JMS Mix 1","|
+|00000a90| 6c 69 6e 6b 22 3a 22 68 74 74 70 73 3a 2f 2f 6f |link":"https://o|
+|00000aa0| 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f |pen.spotify.com/|
+|00000ab0| 65 6d 62 65 64 2f 70 6c 61 79 6c 69 73 74 2f 37 |embed/playlist/7|
+|00000ac0| 33 51 47 46 6f 6f 53 6f 34 53 77 56 4e 64 47 57 |3QGFooSo4SwVNdGW|
+|00000ad0| 44 64 35 59 71 3f 75 74 6d 5f 73 6f 75 72 63 65 |Dd5Yq?utm_source|
+|00000ae0| 3d 67 65 6e 65 72 61 74 6f 72 22 2c 22 74 61 67 |=generator","tag|
+|00000af0| 22 3a 5b 22 41 6c 6c 22 2c 22 4a 4d 53 22 5d 7d |":["All","JMS"]}|
+|00000b00| 5d 0d 0a                                        |]..             |
++--------+-------------------------------------------------+----------------+
+2025-05-19T12:17:30.858+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410-6, L:/192.168.0.21:58956 - R:www.jurassicmusicsociety.com/66.33.60.130:443] READ: 5B
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 30 0d 0a 0d 0a                                  |0....           |
++--------+-------------------------------------------------+----------------+
+2025-05-19T12:17:30.858+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] r.n.http.client.HttpClientOperations     : [82c17410-6, L:/192.168.0.21:58956 - R:www.jurassicmusicsociety.com/66.33.60.130:443] Received last HTTP packet
+2025-05-19T12:17:30.858+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.JmsWebsiteService          : Successfully retrieved JSON data from JMS API, length: 6907
+2025-05-19T12:17:30.858+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410, L:/192.168.0.21:58956 - R:www.jurassicmusicsociety.com/66.33.60.130:443] READ COMPLETE
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Successfully parsed JSON data for 44 existing playlists
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Retrieved 44 playlists from JMS API
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 21.02.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 14.02.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 31.01.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 24.01.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 17.01.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 10.01.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 03.01.2025
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 06.12.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 29.11.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 22.11.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 15.11.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 08.11.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 01.11.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 25.10.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 18.10.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 11.10.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 4.10.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 27.09.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 20.09.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 13.09.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 06.09.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 30.08.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 23.08.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 16.08.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 09.08.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 02.08.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 26.07.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 12.07.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 28.06.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 14.06.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 07.06.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 24.05.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 10.05.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 26.04.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 19.04.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 12.04.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 05.04.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 29.03.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 22.03.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 01.03.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 23.02.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: Weekly Mix 16.02.2024
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: JMS Mix 2
+2025-05-19T12:17:30.861+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added existing playlist from JMS: JMS Mix 1
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 16.05.25 to Weekly Mix 16.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 16.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 09.05.25 to Weekly Mix 09.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 09.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 02.05.25 to Weekly Mix 02.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 02.05.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 25.04.25 to Weekly Mix 25.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 25.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 18.04.25 to Weekly Mix 18.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 18.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 11.04.25 to Weekly Mix 11.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 11.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 04.04.25 to Weekly Mix 04.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 04.04.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 28.03.25 to Weekly Mix 28.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 28.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 21.03.25 to Weekly Mix 21.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 21.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 14.03.25 to Weekly Mix 14.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 14.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 07.03.25 to Weekly Mix 07.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 07.03.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 28.02.25 to Weekly Mix 28.02.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 28.02.2025
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 27.12.24 to Weekly Mix 27.12.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 27.12.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 19.07.24 to Weekly Mix 19.07.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 19.07.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 05.07.24 to Weekly Mix 05.07.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 05.07.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 21.06.24 to Weekly Mix 21.06.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 21.06.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 31.05.24 to Weekly Mix 31.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 31.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 17.05.24 to Weekly Mix 17.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 17.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 03.05.24 to Weekly Mix 03.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 03.05.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 15.03.24 to Weekly Mix 15.03.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 15.03.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 08.03.24 to Weekly Mix 08.03.2024
+2025-05-19T12:17:30.861+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 08.03.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 09.02.24 to Weekly Mix 09.02.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 09.02.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 02.02.24 to Weekly Mix 02.02.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 02.02.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 21.02.25 to Weekly Mix 21.02.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 21.02.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 14.02.25 to Weekly Mix 14.02.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 14.02.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 31.01.25 to Weekly Mix 31.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 31.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 24.01.25 to Weekly Mix 24.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 24.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 17.01.25 to Weekly Mix 17.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 17.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 10.01.25 to Weekly Mix 10.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 10.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 03.01.25 to Weekly Mix 03.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 03.01.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 06.12.24 to Weekly Mix 06.12.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 06.12.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 29.11.24 to Weekly Mix 29.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 29.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 22.11.24 to Weekly Mix 22.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 22.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 15.11.24 to Weekly Mix 15.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 15.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 01.11.24 to Weekly Mix 01.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 01.11.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 25.10.24 to Weekly Mix 25.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 25.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 18.10.24 to Weekly Mix 18.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 18.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 11.10.24 to Weekly Mix 11.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 11.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed playlist name from JMS 4.10.24 to Weekly Mix 4.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added new playlist to export: Weekly Mix 4.10.2024
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Found 2 recently created playlists for user
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed recent playlist name from JMS 09.05.25 to Weekly Mix 09.05.2025
+2025-05-19T12:17:30.862+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Processing recently created playlist: Weekly Mix 09.05.2025 (6sh3JGV7ZTaSNPj2F8BaH6)
+2025-05-19T12:17:30.863+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added recently created playlist to export: Weekly Mix 09.05.2025
+2025-05-19T12:17:30.863+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Transformed recent playlist name from JMS 16.05.25 to Weekly Mix 16.05.2025
+2025-05-19T12:17:30.863+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Processing recently created playlist: Weekly Mix 16.05.2025 (1h4DPkKj7BRjrGDarzteY5)
+2025-05-19T12:17:30.863+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Added recently created playlist to export: Weekly Mix 16.05.2025
+2025-05-19T12:17:30.863+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Combined playlists count: 67
+2025-05-19T12:17:30.882+01:00  INFO 11688 --- [spotifyPlaylistAuth] [http-nio-8080-exec-10] c.j.s.service.PlaylistExportService      : Successfully exported 67 playlists to JSON
+2025-05-19T12:23:10.730+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [697c7b2f, L:/192.168.0.21:58955 - R:jurassicmusicsociety.com/76.76.21.21:443] READ COMPLETE
+2025-05-19T12:23:10.732+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [697c7b2f, L:/192.168.0.21:58955 ! R:jurassicmusicsociety.com/76.76.21.21:443] USER_EVENT: SslCloseCompletionEvent(java.nio.channels.ClosedChannelException)
+2025-05-19T12:23:10.732+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [697c7b2f, L:/192.168.0.21:58955 ! R:jurassicmusicsociety.com/76.76.21.21:443] INACTIVE
+2025-05-19T12:23:10.732+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [697c7b2f, L:/192.168.0.21:58955 ! R:jurassicmusicsociety.com/76.76.21.21:443] UNREGISTERED
+2025-05-19T12:23:10.753+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410, L:/192.168.0.21:58956 - R:www.jurassicmusicsociety.com/66.33.60.130:443] READ COMPLETE
+2025-05-19T12:23:10.753+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410, L:/192.168.0.21:58956 ! R:www.jurassicmusicsociety.com/66.33.60.130:443] USER_EVENT: SslCloseCompletionEvent(java.nio.channels.ClosedChannelException)
+2025-05-19T12:23:10.753+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410, L:/192.168.0.21:58956 ! R:www.jurassicmusicsociety.com/66.33.60.130:443] INACTIVE
+2025-05-19T12:23:10.753+01:00 DEBUG 11688 --- [spotifyPlaylistAuth] [reactor-http-nio-3] reactor.netty.http.client.HttpClient     : [82c17410, L:/192.168.0.21:58956 ! R:www.jurassicmusicsociety.com/66.33.60.130:443] UNREGISTERED
+2025-05-19T12:25:50.310+01:00  INFO 11688 --- [spotifyPlaylistAuth] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-19T12:25:50.318+01:00  INFO 11688 --- [spotifyPlaylistAuth] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete

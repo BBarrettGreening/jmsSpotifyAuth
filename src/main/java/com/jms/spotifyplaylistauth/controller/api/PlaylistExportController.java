@@ -166,4 +166,74 @@ public class PlaylistExportController {
                     .body(error);
         }
     }
+    
+    /**
+     * Export playlists in JavaScript format (for website integration)
+     * @param accessToken Spotify access token
+     * @return JavaScript file with playlists data
+     */
+    @GetMapping("/export/javascript")
+    public ResponseEntity<?> exportPlaylistsAsJavaScript(@RequestParam String accessToken) {
+        logger.info("Playlist JavaScript export requested with access token");
+        
+        try {
+            // First, check if the user is valid
+            Map<String, Object> userProfile = spotifyPlaylistService.getUserProfile(accessToken);
+            if (userProfile.isEmpty() || !userProfile.containsKey("id")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Unable to retrieve user profile - token may be invalid"));
+            }
+            
+            // Call the service to generate the JavaScript export
+            String jsData = playlistExportService.exportPlaylistsAsJavaScript(accessToken);
+            
+            // Return the JavaScript data
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/javascript"))
+                    .body(jsData);
+        } catch (Exception e) {
+            logger.error("Error exporting playlists as JavaScript: {}", e.getMessage(), e);
+            
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Failed to export playlists: " + e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(error);
+        }
+    }
+    
+    /**
+     * Download the playlist export as a JavaScript file
+     * @param accessToken Spotify access token
+     * @return JavaScript file download
+     */
+    @GetMapping("/export/javascript/download")
+    public ResponseEntity<?> downloadPlaylistExportAsJavaScript(@RequestParam String accessToken) {
+        logger.info("Playlist JavaScript export download requested with access token");
+        
+        try {
+            // Call the service to generate the JavaScript export
+            String jsData = playlistExportService.exportPlaylistsAsJavaScript(accessToken);
+            
+            // Generate a filename with the current timestamp
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String filename = "playlistsData_" + timestamp + ".js";
+            
+            // Set up the response headers for file download
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/javascript"));
+            headers.setContentDispositionFormData("attachment", filename);
+            
+            // Return the JavaScript data as a downloadable file
+            return new ResponseEntity<>(jsData, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error exporting playlists for JavaScript download: {}", e.getMessage(), e);
+            
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Failed to export playlists: " + e.getMessage());
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(error);
+        }
+    }
 }

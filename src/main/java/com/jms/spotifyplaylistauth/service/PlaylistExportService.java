@@ -381,4 +381,22 @@ public class PlaylistExportService {
 
         return new ArrayList<>();
     }
+
+    /**
+     * Export playlists in JavaScript format (for website integration)
+     * @param accessToken Spotify access token
+     * @return JavaScript string with playlists data
+     */
+    public String exportPlaylistsAsJavaScript(String accessToken) {
+        // Get the JSON data first
+        String jsonData = exportPlaylists(accessToken);
+        
+        // Wrap it in JavaScript format
+        StringBuilder jsOutput = new StringBuilder();
+        jsOutput.append("const playlistsData = ");
+        jsOutput.append(jsonData);
+        jsOutput.append("\n\nexport default playlistsData;");
+        
+        return jsOutput.toString();
+    }
 }

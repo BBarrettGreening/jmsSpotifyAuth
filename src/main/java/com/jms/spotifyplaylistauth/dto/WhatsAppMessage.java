@@ -93,6 +93,10 @@ public class WhatsAppMessage {
         return sender;
     }
 
+    public String getAuthor() {
+        return sender;
+    }
+
     public String getContent() {
         return content;
     }

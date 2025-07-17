@@ -52,22 +52,36 @@ public class UrlBuilderService {
         String xForwardedHost = request.getHeader("X-Forwarded-Host");
         String xForwardedPort = request.getHeader("X-Forwarded-Port");
         
+        // Log headers for debugging
+        logger.debug("Request headers - X-Forwarded-Proto: {}, X-Forwarded-Host: {}, X-Forwarded-Port: {}",
+                    xForwardedProto, xForwardedHost, xForwardedPort);
+        logger.debug("Request info - Scheme: {}, ServerName: {}, ServerPort: {}", 
+                    scheme, serverName, serverPort);
+        
         // Use forwarded values if available
-        if (xForwardedProto != null) {
+        if (xForwardedProto != null && !xForwardedProto.isEmpty()) {
             scheme = xForwardedProto;
         }
-        if (xForwardedHost != null) {
+        
+        if (xForwardedHost != null && !xForwardedHost.isEmpty()) {
             serverName = xForwardedHost;
             // X-Forwarded-Host might include port
             if (serverName.contains(":")) {
                 String[] parts = serverName.split(":");
                 serverName = parts[0];
-                if (xForwardedPort == null) {
+                if (xForwardedPort == null && parts.length > 1) {
                     xForwardedPort = parts[1];
                 }
             }
         }
-        if (xForwardedPort != null) {
+        
+        // For Koyeb and similar platforms, always use HTTPS if we detect we're not on localhost
+        if (!"localhost".equals(serverName) && !"127.0.0.1".equals(serverName) && 
+            !serverName.startsWith("192.168.") && !serverName.startsWith("10.")) {
+            scheme = "https";
+        }
+        
+        if (xForwardedPort != null && !xForwardedPort.isEmpty()) {
             try {
                 serverPort = Integer.parseInt(xForwardedPort);
             } catch (NumberFormatException e) {
@@ -82,18 +96,16 @@ public class UrlBuilderService {
         boolean isDefaultPort = ("http".equals(scheme) && serverPort == 80) || 
                                ("https".equals(scheme) && serverPort == 443);
         
-        if (!isDefaultPort && xForwardedHost != null && !xForwardedHost.contains(":")) {
-            // Only add port if X-Forwarded-Host doesn't already include it
-            urlBuilder.append(":").append(serverPort);
-        } else if (!isDefaultPort && xForwardedHost == null) {
-            // Add port if not using forwarded host and not default
+        // Don't add port if it's default or if we're using forwarded headers
+        if (!isDefaultPort && xForwardedHost == null) {
             urlBuilder.append(":").append(serverPort);
         }
         
         urlBuilder.append(contextPath).append(path);
         
         String fullUrl = urlBuilder.toString();
-        logger.debug("Built dynamic URL: {}", fullUrl);
+        logger.info("Built dynamic URL: {} (scheme: {}, host: {}, port: {})", 
+                   fullUrl, scheme, serverName, serverPort);
         
         return fullUrl;
     }

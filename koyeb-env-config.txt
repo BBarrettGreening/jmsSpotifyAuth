@@ -1,0 +1,12 @@
+# Koyeb Environment Variables Configuration
+# Add these to your Koyeb app settings
+
+# Required environment variables:
+SPRING_PROFILES_ACTIVE=koyeb
+PORT=8000
+
+# Optional: If you want to hardcode the base URL
+# APP_BASE_URL=https://cooperative-janeen-uop-6f3c4338.koyeb.app
+
+# Java options for better memory management
+JAVA_OPTS=-Xmx512m -Xms256m

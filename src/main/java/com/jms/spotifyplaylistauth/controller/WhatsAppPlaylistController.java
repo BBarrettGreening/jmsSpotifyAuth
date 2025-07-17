@@ -35,8 +35,8 @@ public class WhatsAppPlaylistController {
     
     @GetMapping("/login")
     public String whatsAppLogin() {
-        logger.info("WhatsApp login initiated, using direct WhatsApp auth endpoint");
-        return "redirect:/spotify/whatsapp-auth";
+        logger.info("WhatsApp login initiated, using dynamic auth endpoint");
+        return "redirect:/spotify/login";
     }
     
     @GetMapping("/upload")

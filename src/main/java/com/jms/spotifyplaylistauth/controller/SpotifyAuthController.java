@@ -2,6 +2,7 @@ package com.jms.spotifyplaylistauth.controller;
 
 import com.jms.spotifyplaylistauth.dto.SpotifyTokenResponse;
 import com.jms.spotifyplaylistauth.service.SpotifyService;
+import com.jms.spotifyplaylistauth.service.UrlBuilderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -19,16 +21,19 @@ public class SpotifyAuthController {
     private static final Logger logger = LoggerFactory.getLogger(SpotifyAuthController.class);
 
     private final SpotifyService spotifyService;
+    private final UrlBuilderService urlBuilderService;
 
     @Autowired
-    public SpotifyAuthController(SpotifyService spotifyService) {
+    public SpotifyAuthController(SpotifyService spotifyService, UrlBuilderService urlBuilderService) {
         this.spotifyService = spotifyService;
+        this.urlBuilderService = urlBuilderService;
     }
 
     @GetMapping("/login")
     public String login(
             @RequestParam(name = "redirect_url", required = false) String redirectUrl,
-            @RequestParam(name = "origin", required = false) String origin) {
+            @RequestParam(name = "origin", required = false) String origin,
+            HttpServletRequest request) {
         
         // Determine the redirect URL to return to after auth
         String effectiveRedirectUrl = null;
@@ -40,8 +45,8 @@ public class SpotifyAuthController {
             // Use the origin as the redirect URL
             effectiveRedirectUrl = origin;
         } else {
-            // Default to the Spring Boot application with the WhatsApp upload page
-            effectiveRedirectUrl = "http://localhost:8080/whatsapp/upload";
+            // Build the redirect URL dynamically using the URL builder service
+            effectiveRedirectUrl = urlBuilderService.buildFullUrl(request, "/whatsapp/upload");
         }
         
         logger.info("Spotify login initiated, will return to: {}", effectiveRedirectUrl);
@@ -121,31 +126,41 @@ public class SpotifyAuthController {
             @RequestParam(required = false) String expires_in,
             @RequestParam(required = false) String error,
             Model model,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
         
         logger.info("Received callback with access_token present: {}, state: {}", (access_token != null), state);
         
         try {
-            // Check if we need to redirect back to the JMS website
-            boolean shouldRedirectToJms = (state != null && state.startsWith("redirect_to_jms"));
-            String jmsRedirectUrl = null;
+            // Try to extract the original redirect URL from the state
+            String originalRedirectUrl = urlBuilderService.extractRedirectUrlFromState(state);
             
-            // Extract the JMS redirect URL from state if available
-            if (shouldRedirectToJms && state.contains(":")) {
-                jmsRedirectUrl = state.substring(state.indexOf(":") + 1);
+            // Also check for the old format
+            if (originalRedirectUrl == null && state != null && state.startsWith("redirect_to_jms") && state.contains(":")) {
+                originalRedirectUrl = state.substring(state.indexOf(":") + 1);
             }
             
-            // Set a default JMS redirect URL if needed
+            // Backward compatibility flags
+            boolean shouldRedirectToJms = (state != null && state.startsWith("redirect_to_jms"));
+            String jmsRedirectUrl = originalRedirectUrl != null ? originalRedirectUrl : null;
+            
+            // Set a default redirect URL if needed (but prefer dynamic detection)
             if (shouldRedirectToJms && (jmsRedirectUrl == null || jmsRedirectUrl.isEmpty())) {
-                jmsRedirectUrl = "http://localhost:8080/whatsapp/upload";
+                jmsRedirectUrl = urlBuilderService.buildFullUrl(request, "/whatsapp/upload");
             }
             
             // Handle error case
             if (error != null) {
                 logger.error("Error in Spotify callback: {}", error);
                 
-                // If we should redirect to JMS website with error
-                if (shouldRedirectToJms) {
+                // If we have an original redirect URL, redirect there with error
+                if (originalRedirectUrl != null) {
+                    logger.info("Redirecting to original URL with error: {}", error);
+                    String separator = originalRedirectUrl.contains("?") ? "&" : "?";
+                    return "redirect:" + originalRedirectUrl + separator + "error=" + error;
+                }
+                // If we should redirect to JMS website with error (backward compatibility)
+                else if (shouldRedirectToJms) {
                     logger.info("Redirecting to JMS website with error: {}", error);
                     return "redirect:" + jmsRedirectUrl + "?error=" + error;
                 }
@@ -161,8 +176,14 @@ public class SpotifyAuthController {
                 // Get user profile using the provided access token
                 Map<String, Object> userProfile = spotifyService.getUserProfile(access_token);
                 
-                // Check if we should redirect to JMS website
-                if (shouldRedirectToJms) {
+                // If we have an original redirect URL, use it
+                if (originalRedirectUrl != null) {
+                    logger.info("Redirecting to original URL with access token: {}", originalRedirectUrl);
+                    String separator = originalRedirectUrl.contains("?") ? "&" : "?";
+                    return "redirect:" + originalRedirectUrl + separator + "access_token=" + access_token;
+                }
+                // Check if we should redirect to JMS website (backward compatibility)
+                else if (shouldRedirectToJms) {
                     logger.info("Redirecting to JMS website with access token");
                     return "redirect:" + jmsRedirectUrl + "?access_token=" + access_token;
                 }
@@ -185,8 +206,14 @@ public class SpotifyAuthController {
                     // Get user profile
                     Map<String, Object> userProfile = spotifyService.getUserProfile(tokenResponse.getAccessToken());
                     
-                    // Check if we should redirect to JMS website
-                    if (shouldRedirectToJms) {
+                    // If we have an original redirect URL, use it
+                    if (originalRedirectUrl != null) {
+                        logger.info("Redirecting to original URL with access token after exchange: {}", originalRedirectUrl);
+                        String separator = originalRedirectUrl.contains("?") ? "&" : "?";
+                        return "redirect:" + originalRedirectUrl + separator + "access_token=" + tokenResponse.getAccessToken();
+                    }
+                    // Check if we should redirect to JMS website (backward compatibility)
+                    else if (shouldRedirectToJms) {
                         logger.info("Redirecting to JMS website with access token after exchange");
                         return "redirect:" + jmsRedirectUrl + "?access_token=" + tokenResponse.getAccessToken();
                     }
@@ -200,7 +227,10 @@ public class SpotifyAuthController {
                         return "redirect:/whatsapp/upload?accessToken=" + tokenResponse.getAccessToken();
                     }
                 } else {
-                    if (shouldRedirectToJms) {
+                    if (originalRedirectUrl != null) {
+                        String separator = originalRedirectUrl.contains("?") ? "&" : "?";
+                        return "redirect:" + originalRedirectUrl + separator + "error=failed_to_retrieve_token";
+                    } else if (shouldRedirectToJms) {
                         return "redirect:" + jmsRedirectUrl + "?error=failed_to_retrieve_token";
                     }
                     
@@ -210,7 +240,10 @@ public class SpotifyAuthController {
             }
             
             // If we have neither token nor code
-            if (shouldRedirectToJms) {
+            if (originalRedirectUrl != null) {
+                String separator = originalRedirectUrl.contains("?") ? "&" : "?";
+                return "redirect:" + originalRedirectUrl + separator + "error=no_token_or_code";
+            } else if (shouldRedirectToJms) {
                 return "redirect:" + jmsRedirectUrl + "?error=no_token_or_code";
             }
             
@@ -238,12 +271,15 @@ public class SpotifyAuthController {
     /**
      * Direct endpoint for WhatsApp authentication with Spotify
      * This simplifies the authentication flow for WhatsApp playlist creation
-     * The JMS website will receive the authorization code and redirect back to localhost:8080
+     * The JMS website will receive the authorization code and redirect back to the originating server
      */
     @GetMapping("/whatsapp-auth")
-    public String whatsAppDirectAuth() {
+    public String whatsAppDirectAuth(HttpServletRequest request) {
         logger.info("Direct WhatsApp auth initiated");
-        String returnUrl = "http://localhost:8080/whatsapp/upload";
+        
+        // Build the return URL dynamically using the URL builder service
+        String returnUrl = urlBuilderService.buildFullUrl(request, "/whatsapp/upload");
+        
         logger.info("Setting return URL (will be handled by JMS website): {}", returnUrl);
         String authUrl = spotifyService.buildSpotifyAuthorizationUrl(null, returnUrl);
         logger.info("Redirecting to Spotify auth URL with return URL embedded in state");
